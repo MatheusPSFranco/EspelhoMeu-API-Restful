@@ -16,4 +16,119 @@ public class PerfilCabelo {
     private String interesseColoracao;
     private String preferenciaMudanca;
     private LocalDateTime data;
+
+    //Constructor
+    public PerfilCabelo() {}
+
+    public PerfilCabelo(Long id, Usuario usuario, String texturaCabelo, String formatoRosto, String comprimentoAtual, String comprimentoDesejado, String corAtual, String estiloPreferencia, String tempoDisponivel, String interesseColoracao, String preferenciaMudanca, LocalDateTime data) {
+        this.id = id;
+        this.usuario = usuario;
+        this.texturaCabelo = texturaCabelo;
+        this.formatoRosto = formatoRosto;
+        this.comprimentoAtual = comprimentoAtual;
+        this.comprimentoDesejado = comprimentoDesejado;
+        this.corAtual = corAtual;
+        this.estiloPreferencia = estiloPreferencia;
+        this.tempoDisponivel = tempoDisponivel;
+        this.interesseColoracao = interesseColoracao;
+        this.preferenciaMudanca = preferenciaMudanca;
+        this.data = data;
+    }
+
+    //Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getTexturaCabelo() {
+        return texturaCabelo;
+    }
+
+    public void setTexturaCabelo(String texturaCabelo) {
+        this.texturaCabelo = texturaCabelo;
+    }
+
+    public String getFormatoRosto() {
+        return formatoRosto;
+    }
+
+    public void setFormatoRosto(String formatoRosto) {
+        this.formatoRosto = formatoRosto;
+    }
+
+    public String getComprimentoAtual() {
+        return comprimentoAtual;
+    }
+
+    public void setComprimentoAtual(String comprimentoAtual) {
+        this.comprimentoAtual = comprimentoAtual;
+    }
+
+    public String getComprimentoDesejado() {
+        return comprimentoDesejado;
+    }
+
+    public void setComprimentoDesejado(String comprimentoDesejado) {
+        this.comprimentoDesejado = comprimentoDesejado;
+    }
+
+    public String getCorAtual() {
+        return corAtual;
+    }
+
+    public void setCorAtual(String corAtual) {
+        this.corAtual = corAtual;
+    }
+
+    public String getEstiloPreferencia() {
+        return estiloPreferencia;
+    }
+
+    public void setEstiloPreferencia(String estiloPreferencia) {
+        this.estiloPreferencia = estiloPreferencia;
+    }
+
+    public String getTempoDisponivel() {
+        return tempoDisponivel;
+    }
+
+    public void setTempoDisponivel(String tempoDisponivel) {
+        this.tempoDisponivel = tempoDisponivel;
+    }
+
+    public String getInteresseColoracao() {
+        return interesseColoracao;
+    }
+
+    public void setInteresseColoracao(String interesseColoracao) {
+        this.interesseColoracao = interesseColoracao;
+    }
+
+    public String getPreferenciaMudanca() {
+        return preferenciaMudanca;
+    }
+
+    public void setPreferenciaMudanca(String preferenciaMudanca) {
+        this.preferenciaMudanca = preferenciaMudanca;
+    }
+
+    public LocalDateTime getData() {
+        return data;
+    }
+
+    public void setData(LocalDateTime data) {
+        this.data = data;
+    }
 }

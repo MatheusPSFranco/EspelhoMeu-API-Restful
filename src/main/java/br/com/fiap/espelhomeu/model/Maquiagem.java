@@ -12,4 +12,104 @@ public class Maquiagem {
     private String tipoCobertura;
     private String acabamento;
     private Double avaliacao;
+
+    //Constructor
+
+    public Maquiagem() {}
+
+    public Maquiagem(Long id, String tipo, String cor, String faixaPreco, String marca, String linhaProduto, String codigoTonalidade, String tipoCobertura, String acabamento, Double avaliacao) {
+        this.id = id;
+        this.tipo = tipo;
+        this.cor = cor;
+        this.faixaPreco = faixaPreco;
+        this.marca = marca;
+        this.linhaProduto = linhaProduto;
+        this.codigoTonalidade = codigoTonalidade;
+        this.tipoCobertura = tipoCobertura;
+        this.acabamento = acabamento;
+        this.avaliacao = avaliacao;
+    }
+
+
+    //Getters and Setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getCor() {
+        return cor;
+    }
+
+    public void setCor(String cor) {
+        this.cor = cor;
+    }
+
+    public String getFaixaPreco() {
+        return faixaPreco;
+    }
+
+    public void setFaixaPreco(String faixaPreco) {
+        this.faixaPreco = faixaPreco;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public String getLinhaProduto() {
+        return linhaProduto;
+    }
+
+    public void setLinhaProduto(String linhaProduto) {
+        this.linhaProduto = linhaProduto;
+    }
+
+    public String getCodigoTonalidade() {
+        return codigoTonalidade;
+    }
+
+    public void setCodigoTonalidade(String codigoTonalidade) {
+        this.codigoTonalidade = codigoTonalidade;
+    }
+
+    public String getTipoCobertura() {
+        return tipoCobertura;
+    }
+
+    public void setTipoCobertura(String tipoCobertura) {
+        this.tipoCobertura = tipoCobertura;
+    }
+
+    public String getAcabamento() {
+        return acabamento;
+    }
+
+    public void setAcabamento(String acabamento) {
+        this.acabamento = acabamento;
+    }
+
+    public Double getAvaliacao() {
+        return avaliacao;
+    }
+
+    public void setAvaliacao(Double avaliacao) {
+        this.avaliacao = avaliacao;
+    }
 }
