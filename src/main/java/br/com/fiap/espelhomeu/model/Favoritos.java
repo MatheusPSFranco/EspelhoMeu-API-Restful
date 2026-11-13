@@ -11,13 +11,17 @@ public class Favoritos {
     private CorCabelo corCabelo;
     private RecomendacaoCorte recomendacaoCorte;
     private RecomendacaoCor recomendacaoCor;
+    private Penteado penteado;
+    private Produto produto;
+    private RecomendacaoMaquiagem recomendacaoMaquiagem;
+    private Simulacao simulacao;
     private LocalDateTime data;
 
     //Constructor
 
     public Favoritos() {}
 
-    public Favoritos(Long id, Usuario usuario, Corte corte, Maquiagem maquiagem, CorCabelo corCabelo, RecomendacaoCorte recomendacaoCorte, RecomendacaoCor recomendacaoCor, LocalDateTime data) {
+    public Favoritos(Long id, Usuario usuario, Corte corte, Maquiagem maquiagem, CorCabelo corCabelo, RecomendacaoCorte recomendacaoCorte, RecomendacaoCor recomendacaoCor, Penteado penteado, Produto produto, RecomendacaoMaquiagem recomendacaoMaquiagem, Simulacao simulacao, LocalDateTime data) {
         this.id = id;
         this.usuario = usuario;
         this.corte = corte;
@@ -25,6 +29,10 @@ public class Favoritos {
         this.corCabelo = corCabelo;
         this.recomendacaoCorte = recomendacaoCorte;
         this.recomendacaoCor = recomendacaoCor;
+        this.penteado = penteado;
+        this.produto = produto;
+        this.recomendacaoMaquiagem = recomendacaoMaquiagem;
+        this.simulacao = simulacao;
         this.data = data;
     }
 
@@ -84,6 +92,38 @@ public class Favoritos {
 
     public void setRecomendacaoCor(RecomendacaoCor recomendacaoCor) {
         this.recomendacaoCor = recomendacaoCor;
+    }
+
+    public Penteado getPenteado() {
+        return penteado;
+    }
+
+    public void setPenteado(Penteado penteado) {
+        this.penteado = penteado;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
+    public RecomendacaoMaquiagem getRecomendacaoMaquiagem() {
+        return recomendacaoMaquiagem;
+    }
+
+    public void setRecomendacaoMaquiagem(RecomendacaoMaquiagem recomendacaoMaquiagem) {
+        this.recomendacaoMaquiagem = recomendacaoMaquiagem;
+    }
+
+    public Simulacao getSimulacao() {
+        return simulacao;
+    }
+
+    public void setSimulacao(Simulacao simulacao) {
+        this.simulacao = simulacao;
     }
 
     public LocalDateTime getData() {

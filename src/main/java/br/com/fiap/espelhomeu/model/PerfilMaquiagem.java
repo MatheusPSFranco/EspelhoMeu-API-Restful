@@ -6,8 +6,10 @@ public class PerfilMaquiagem {
 
     private Long id;
     private Usuario usuario;
+    private String tipopele;
     private String tomPele;
     private String subtomPele;
+    private String necessidadePele;
     private String produtoUtilizado;
     private String tonalidadeUtilizada;
     private String dificuldadeBase;
@@ -21,11 +23,13 @@ public class PerfilMaquiagem {
 
     public PerfilMaquiagem() {}
 
-    public PerfilMaquiagem(Long id, Usuario usuario, String tomPele, String subtomPele, String produtoUtilizado, String tonalidadeUtilizada, String dificuldadeBase, String dificuldadeCorretivo, String coberturaDesejada, String acabamentoPreferido, String faixaPreco, LocalDateTime data) {
+    public PerfilMaquiagem(Long id, Usuario usuario, String tipopele, String tomPele, String subtomPele, String necessidadePele, String produtoUtilizado, String tonalidadeUtilizada, String dificuldadeBase, String dificuldadeCorretivo, String coberturaDesejada, String acabamentoPreferido, String faixaPreco, LocalDateTime data) {
         this.id = id;
         this.usuario = usuario;
+        this.tipopele = tipopele;
         this.tomPele = tomPele;
         this.subtomPele = subtomPele;
+        this.necessidadePele = necessidadePele;
         this.produtoUtilizado = produtoUtilizado;
         this.tonalidadeUtilizada = tonalidadeUtilizada;
         this.dificuldadeBase = dificuldadeBase;
@@ -37,6 +41,7 @@ public class PerfilMaquiagem {
     }
 
     //Getters and Setters
+
     public Long getId() {
         return id;
     }
@@ -53,6 +58,14 @@ public class PerfilMaquiagem {
         this.usuario = usuario;
     }
 
+    public String getTipopele() {
+        return tipopele;
+    }
+
+    public void setTipopele(String tipopele) {
+        this.tipopele = tipopele;
+    }
+
     public String getTomPele() {
         return tomPele;
     }
@@ -67,6 +80,14 @@ public class PerfilMaquiagem {
 
     public void setSubtomPele(String subtomPele) {
         this.subtomPele = subtomPele;
+    }
+
+    public String getNecessidadePele() {
+        return necessidadePele;
+    }
+
+    public void setNecessidadePele(String necessidadePele) {
+        this.necessidadePele = necessidadePele;
     }
 
     public String getProdutoUtilizado() {

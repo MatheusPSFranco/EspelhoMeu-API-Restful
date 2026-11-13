@@ -1,23 +1,29 @@
 package br.com.fiap.espelhomeu.model;
 
+import java.time.LocalDateTime;
+
 public class Simulacao {
 
     private Long id;
     private Usuario usuario;
     private Corte corte;
     private CorCabelo corCabelo;
+    private Penteado penteado;
     private byte[] imagem;
+    private LocalDateTime data;
 
     //Constructor
 
     public Simulacao() {}
 
-    public Simulacao(Long id, Usuario usuario, Corte corte, CorCabelo corCabelo, byte[] imagem) {
+    public Simulacao(Long id, Usuario usuario, Corte corte, CorCabelo corCabelo, Penteado penteado, byte[] imagem, LocalDateTime data) {
         this.id = id;
         this.usuario = usuario;
         this.corte = corte;
         this.corCabelo = corCabelo;
+        this.penteado = penteado;
         this.imagem = imagem;
+        this.data = data;
     }
 
     //Getters and Setters
@@ -54,11 +60,27 @@ public class Simulacao {
         this.corCabelo = corCabelo;
     }
 
+    public Penteado getPenteado() {
+        return penteado;
+    }
+
+    public void setPenteado(Penteado penteado) {
+        this.penteado = penteado;
+    }
+
     public byte[] getImagem() {
         return imagem;
     }
 
     public void setImagem(byte[] imagem) {
         this.imagem = imagem;
+    }
+
+    public LocalDateTime getData() {
+        return data;
+    }
+
+    public void setData(LocalDateTime data) {
+        this.data = data;
     }
 }
