@@ -15,12 +15,13 @@ public class PerfilCabelo {
     private String tempoDisponivel;
     private String interesseColoracao;
     private String preferenciaMudanca;
+    private String faixaPreco;
     private LocalDateTime data;
 
     //Constructor
     public PerfilCabelo() {}
 
-    public PerfilCabelo(Long id, Usuario usuario, String texturaCabelo, String formatoRosto, String comprimentoAtual, String comprimentoDesejado, String corAtual, String estiloPreferencia, String tempoDisponivel, String interesseColoracao, String preferenciaMudanca, LocalDateTime data) {
+    public PerfilCabelo(Long id, Usuario usuario, String texturaCabelo, String formatoRosto, String comprimentoAtual, String comprimentoDesejado, String corAtual, String estiloPreferencia, String tempoDisponivel, String interesseColoracao, String preferenciaMudanca, String faixaPreco, LocalDateTime data) {
         this.id = id;
         this.usuario = usuario;
         this.texturaCabelo = texturaCabelo;
@@ -32,6 +33,7 @@ public class PerfilCabelo {
         this.tempoDisponivel = tempoDisponivel;
         this.interesseColoracao = interesseColoracao;
         this.preferenciaMudanca = preferenciaMudanca;
+        this.faixaPreco = faixaPreco;
         this.data = data;
     }
 
@@ -124,6 +126,14 @@ public class PerfilCabelo {
         this.preferenciaMudanca = preferenciaMudanca;
     }
 
+    public String getFaixaPreco() {
+        return faixaPreco;
+    }
+
+    public void setFaixaPreco(String faixaPreco) {
+        this.faixaPreco = faixaPreco;
+    }
+
     public LocalDateTime getData() {
         return data;
     }
@@ -137,6 +147,6 @@ public class PerfilCabelo {
     public String toString(){
         return "Id: "+ id +", Usuario: "+usuario.getId()+", Textura Cabelo: "+texturaCabelo+", Formato do Rosto: "+formatoRosto+", Comprimento Atual: "+ comprimentoAtual+
                 ", Comprimento Desejado: "+comprimentoDesejado+", Cor Atual: "+corAtual+", Estilo Preferencia: "+estiloPreferencia+", Tempo Disponivel: "+tempoDisponivel+
-                ", Interesse Coloracao: "+interesseColoracao+", Preferencia Mudanca: "+preferenciaMudanca+", Data: "+data;
+                ", Interesse Coloracao: "+interesseColoracao+", Preferencia Mudanca: "+preferenciaMudanca+", Faixa de Preco: "+faixaPreco+", Data: "+data;
     }
 }
