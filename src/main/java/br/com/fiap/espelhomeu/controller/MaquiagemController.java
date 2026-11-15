@@ -1,7 +1,12 @@
 package br.com.fiap.espelhomeu.controller;
 
 import br.com.fiap.espelhomeu.dao.MaquiagemDao;
+import br.com.fiap.espelhomeu.dto.AtualizacaoMaquiagem;
+import br.com.fiap.espelhomeu.dto.CadastroMaquiagem;
+import br.com.fiap.espelhomeu.dto.DetalhesMaquiagem;
 import br.com.fiap.espelhomeu.model.Maquiagem;
+import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -15,44 +20,58 @@ import java.util.List;
 public class MaquiagemController {
 
     private final MaquiagemDao dao;
+    private final ModelMapper mapper;
 
-    public MaquiagemController(MaquiagemDao dao) {
+    public MaquiagemController(MaquiagemDao dao, ModelMapper mapper) {
         this.dao = dao;
+        this.mapper = mapper;
     }
 
     @GetMapping
-    public List<Maquiagem> listar() throws SQLException {
-        return dao.listar();
+    public List<DetalhesMaquiagem> listar() throws SQLException {
+        return dao.listar().stream()
+                .map(maquiagem -> mapper.map(maquiagem, DetalhesMaquiagem.class))
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Maquiagem> buscar(@PathVariable long id) throws SQLException {
-        return ResponseEntity.ok(dao.buscar(id));
+    public ResponseEntity<DetalhesMaquiagem> buscar(@PathVariable long id) throws SQLException {
+        Maquiagem maquiagem = dao.buscar(id);
+
+        return ResponseEntity.ok(mapper.map(maquiagem, DetalhesMaquiagem.class));
     }
 
     @PostMapping
-    public ResponseEntity<Maquiagem> inserir(
-            @RequestBody Maquiagem maquiagem,
+    public ResponseEntity<DetalhesMaquiagem> inserir(
+            @RequestBody @Valid CadastroMaquiagem dto,
             UriComponentsBuilder uriBuilder) throws SQLException {
 
+        Maquiagem maquiagem = mapper.map(dto, Maquiagem.class);
+
         dao.inserir(maquiagem);
+
+        DetalhesMaquiagem detalhes = mapper.map(maquiagem, DetalhesMaquiagem.class);
 
         URI uri = uriBuilder
                 .path("/maquiagem/{id}")
                 .buildAndExpand(maquiagem.getId())
                 .toUri();
 
-        return ResponseEntity.created(uri).body(maquiagem);
+        return ResponseEntity.created(uri).body(detalhes);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Maquiagem> atualizar(
+    public ResponseEntity<DetalhesMaquiagem> atualizar(
             @PathVariable long id,
-            @RequestBody Maquiagem maquiagem) throws SQLException {
+            @RequestBody @Valid AtualizacaoMaquiagem dto) throws SQLException {
 
-        maquiagem.setId(id);
+        Maquiagem maquiagem = dao.buscar(id);
 
-        return ResponseEntity.ok(dao.atualizar(maquiagem));
+        mapper.map(dto, maquiagem);
+
+        dao.atualizar(maquiagem);
+
+        return ResponseEntity.ok(mapper.map(maquiagem, DetalhesMaquiagem.class));
     }
 
     @DeleteMapping("/{id}")
