@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -30,7 +29,7 @@ public class RecomendacaoPenteadoController {
     }
 
     @GetMapping
-    public List<DetalhesRecomendacaoPenteado> listar() throws SQLException {
+    public List<DetalhesRecomendacaoPenteado> listar()  {
         return dao.listar().stream()
                 .map(recomendacao -> {
                     DetalhesRecomendacaoPenteado dto = mapper.map(recomendacao, DetalhesRecomendacaoPenteado.class);
@@ -42,7 +41,7 @@ public class RecomendacaoPenteadoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DetalhesRecomendacaoPenteado> buscar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<DetalhesRecomendacaoPenteado> buscar(@PathVariable long id)  {
         RecomendacaoPenteado recomendacao = dao.buscar(id);
 
         DetalhesRecomendacaoPenteado dto = mapper.map(recomendacao, DetalhesRecomendacaoPenteado.class);
@@ -55,7 +54,7 @@ public class RecomendacaoPenteadoController {
     @PostMapping
     public ResponseEntity<DetalhesRecomendacaoPenteado> inserir(
             @RequestBody @Valid CadastroRecomendacaoPenteado dto,
-            UriComponentsBuilder uriBuilder) throws SQLException {
+            UriComponentsBuilder uriBuilder)  {
 
         RecomendacaoPenteado recomendacao = mapper.map(dto, RecomendacaoPenteado.class);
 
@@ -84,7 +83,7 @@ public class RecomendacaoPenteadoController {
     @PutMapping("/{id}")
     public ResponseEntity<DetalhesRecomendacaoPenteado> atualizar(
             @PathVariable long id,
-            @RequestBody @Valid AtualizacaoRecomendacaoPenteado dto) throws SQLException {
+            @RequestBody @Valid AtualizacaoRecomendacaoPenteado dto)  {
 
         RecomendacaoPenteado recomendacao = dao.buscar(id);
 
@@ -108,7 +107,7 @@ public class RecomendacaoPenteadoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<Void> deletar(@PathVariable long id)  {
         dao.deletar(id);
         return ResponseEntity.noContent().build();
     }

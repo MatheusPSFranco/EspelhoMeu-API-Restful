@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -30,7 +29,7 @@ public class RecomendacaoCorteController {
     }
 
     @GetMapping
-    public List<DetalhesRecomendacaoCorte> listar() throws SQLException {
+    public List<DetalhesRecomendacaoCorte> listar()  {
         return dao.listar()
                 .stream()
                 .map(recomendacao -> {
@@ -45,7 +44,7 @@ public class RecomendacaoCorteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DetalhesRecomendacaoCorte> buscar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<DetalhesRecomendacaoCorte> buscar(@PathVariable long id)  {
         RecomendacaoCorte recomendacao = dao.buscar(id);
 
         DetalhesRecomendacaoCorte detalhes = mapper.map(recomendacao, DetalhesRecomendacaoCorte.class);
@@ -58,7 +57,7 @@ public class RecomendacaoCorteController {
 
     @PostMapping
     public ResponseEntity<DetalhesRecomendacaoCorte> inserir(
-            @RequestBody @Valid CadastroRecomendacaoCorte dto) throws SQLException {
+            @RequestBody @Valid CadastroRecomendacaoCorte dto)  {
 
         RecomendacaoCorte recomendacao = mapper.map(dto, RecomendacaoCorte.class);
 
@@ -89,7 +88,7 @@ public class RecomendacaoCorteController {
     @PutMapping("/{id}")
     public ResponseEntity<DetalhesRecomendacaoCorte> atualizar(
             @PathVariable long id,
-            @RequestBody @Valid AtualizacaoRecomendacaoCorte dto) throws SQLException {
+            @RequestBody @Valid AtualizacaoRecomendacaoCorte dto)  {
 
         RecomendacaoCorte recomendacao = dao.buscar(id);
 
@@ -114,7 +113,7 @@ public class RecomendacaoCorteController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<Void> deletar(@PathVariable long id)  {
         dao.deletar(id);
         return ResponseEntity.noContent().build();
     }

@@ -1,6 +1,7 @@
 package br.com.fiap.espelhomeu.dao;
 
 import br.com.fiap.espelhomeu.exception.EntidadeNaoEncontradaException;
+import br.com.fiap.espelhomeu.exception.ErroBancoDadosException;
 import br.com.fiap.espelhomeu.model.*;
 import org.springframework.stereotype.Repository;
 
@@ -64,7 +65,7 @@ public class SimulacaoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ErroBancoDadosException("Erro ao listar as simulacoes",e);
         }
 
         return lista;
@@ -117,7 +118,7 @@ public class SimulacaoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ErroBancoDadosException("Erro ao buscar a simulacao",e);
         }
 
         throw new EntidadeNaoEncontradaException("Simulação não encontrada.");
@@ -163,7 +164,7 @@ public class SimulacaoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ErroBancoDadosException("Erro ao inserir a simulacao",e);
         }
     }
 
@@ -207,7 +208,7 @@ public class SimulacaoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ErroBancoDadosException("Erro ao atualizar a simulacao",e);
         }
     }
 
@@ -226,7 +227,7 @@ public class SimulacaoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ErroBancoDadosException("Erro ao deletar a simulacao",e);
         }
     }
 }

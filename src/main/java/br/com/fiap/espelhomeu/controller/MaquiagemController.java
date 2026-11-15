@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -28,14 +27,14 @@ public class MaquiagemController {
     }
 
     @GetMapping
-    public List<DetalhesMaquiagem> listar() throws SQLException {
+    public List<DetalhesMaquiagem> listar()  {
         return dao.listar().stream()
                 .map(maquiagem -> mapper.map(maquiagem, DetalhesMaquiagem.class))
                 .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DetalhesMaquiagem> buscar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<DetalhesMaquiagem> buscar(@PathVariable long id)  {
         Maquiagem maquiagem = dao.buscar(id);
 
         return ResponseEntity.ok(mapper.map(maquiagem, DetalhesMaquiagem.class));
@@ -44,7 +43,7 @@ public class MaquiagemController {
     @PostMapping
     public ResponseEntity<DetalhesMaquiagem> inserir(
             @RequestBody @Valid CadastroMaquiagem dto,
-            UriComponentsBuilder uriBuilder) throws SQLException {
+            UriComponentsBuilder uriBuilder)  {
 
         Maquiagem maquiagem = mapper.map(dto, Maquiagem.class);
 
@@ -63,7 +62,7 @@ public class MaquiagemController {
     @PutMapping("/{id}")
     public ResponseEntity<DetalhesMaquiagem> atualizar(
             @PathVariable long id,
-            @RequestBody @Valid AtualizacaoMaquiagem dto) throws SQLException {
+            @RequestBody @Valid AtualizacaoMaquiagem dto)  {
 
         Maquiagem maquiagem = dao.buscar(id);
 
@@ -75,7 +74,7 @@ public class MaquiagemController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<Void> deletar(@PathVariable long id)  {
         dao.deletar(id);
         return ResponseEntity.noContent().build();
     }

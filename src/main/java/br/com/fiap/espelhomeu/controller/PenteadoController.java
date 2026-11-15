@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -28,7 +27,7 @@ public class PenteadoController {
     }
 
     @GetMapping
-    public List<DetalhesPenteado> listar() throws SQLException {
+    public List<DetalhesPenteado> listar()  {
         return dao.listar()
                 .stream()
                 .map(penteado -> mapper.map(penteado, DetalhesPenteado.class))
@@ -36,7 +35,7 @@ public class PenteadoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DetalhesPenteado> buscar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<DetalhesPenteado> buscar(@PathVariable long id)  {
         Penteado penteado = dao.buscar(id);
 
         DetalhesPenteado detalhes = mapper.map(penteado, DetalhesPenteado.class);
@@ -46,7 +45,7 @@ public class PenteadoController {
 
     @PostMapping
     public ResponseEntity<DetalhesPenteado> inserir(
-            @RequestBody @Valid CadastroPenteado dto) throws SQLException {
+            @RequestBody @Valid CadastroPenteado dto)  {
 
         Penteado penteado = mapper.map(dto, Penteado.class);
 
@@ -66,7 +65,7 @@ public class PenteadoController {
     @PutMapping("/{id}")
     public ResponseEntity<DetalhesPenteado> atualizar(
             @PathVariable long id,
-            @RequestBody @Valid AtualizacaoPenteado dto) throws SQLException {
+            @RequestBody @Valid AtualizacaoPenteado dto)  {
 
         Penteado penteado = dao.buscar(id);
 
@@ -80,7 +79,7 @@ public class PenteadoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<Void> deletar(@PathVariable long id)  {
         dao.deletar(id);
 
         return ResponseEntity.noContent().build();

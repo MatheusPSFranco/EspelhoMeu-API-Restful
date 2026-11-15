@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -28,7 +27,7 @@ public class SimulacaoController {
     }
 
     @GetMapping
-    public List<DetalhesSimulacao> listar() throws SQLException {
+    public List<DetalhesSimulacao> listar()  {
         return dao.listar().stream().map(simulacao -> {
             DetalhesSimulacao detalhes = mapper.map(simulacao, DetalhesSimulacao.class);
 
@@ -51,7 +50,7 @@ public class SimulacaoController {
     }
 
     @GetMapping("/{id}")
-    public DetalhesSimulacao buscar(@PathVariable long id) throws SQLException {
+    public DetalhesSimulacao buscar(@PathVariable long id)  {
         Simulacao simulacao = dao.buscar(id);
 
         DetalhesSimulacao detalhes = mapper.map(simulacao, DetalhesSimulacao.class);
@@ -76,7 +75,7 @@ public class SimulacaoController {
     @PostMapping
     public ResponseEntity<DetalhesSimulacao> inserir(
             @RequestBody @Valid CadastroSimulacao dto,
-            UriComponentsBuilder uriBuilder) throws SQLException {
+            UriComponentsBuilder uriBuilder)  {
 
         Simulacao simulacao = mapper.map(dto, Simulacao.class);
 
@@ -130,7 +129,7 @@ public class SimulacaoController {
     @PutMapping("/{id}")
     public ResponseEntity<DetalhesSimulacao> atualizar(
             @PathVariable long id,
-            @RequestBody @Valid AtualizacaoSimulacao dto) throws SQLException {
+            @RequestBody @Valid AtualizacaoSimulacao dto)  {
 
         Simulacao simulacao = dao.buscar(id);
 
@@ -183,7 +182,7 @@ public class SimulacaoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<Void> deletar(@PathVariable long id)  {
         dao.deletar(id);
         return ResponseEntity.noContent().build();
     }

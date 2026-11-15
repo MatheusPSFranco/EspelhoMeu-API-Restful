@@ -1,6 +1,7 @@
 package br.com.fiap.espelhomeu.dao;
 
 import br.com.fiap.espelhomeu.exception.EntidadeNaoEncontradaException;
+import br.com.fiap.espelhomeu.exception.ErroBancoDadosException;
 import br.com.fiap.espelhomeu.model.Produto;
 import org.springframework.stereotype.Repository;
 
@@ -55,7 +56,7 @@ public class ProdutoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar produtos", e);
+            throw new ErroBancoDadosException("Erro ao listar produtos", e);
         }
 
         return lista;
@@ -98,7 +99,7 @@ public class ProdutoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar produto", e);
+            throw new ErroBancoDadosException("Erro ao buscar produto", e);
         }
 
         throw new EntidadeNaoEncontradaException("Produto não encontrado");
@@ -148,7 +149,7 @@ public class ProdutoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inserir produto", e);
+            throw new ErroBancoDadosException("Erro ao inserir produto", e);
         }
 
         return produto;
@@ -199,7 +200,7 @@ public class ProdutoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar produto", e);
+            throw new ErroBancoDadosException("Erro ao atualizar produto", e);
         }
 
         return produto;
@@ -220,7 +221,7 @@ public class ProdutoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao deletar produto", e);
+            throw new ErroBancoDadosException("Erro ao deletar produto", e);
         }
     }
 }

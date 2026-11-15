@@ -1,6 +1,7 @@
 package br.com.fiap.espelhomeu.dao;
 
 import br.com.fiap.espelhomeu.exception.EntidadeNaoEncontradaException;
+import br.com.fiap.espelhomeu.exception.ErroBancoDadosException;
 import br.com.fiap.espelhomeu.model.Maquiagem;
 import org.springframework.stereotype.Repository;
 
@@ -49,7 +50,7 @@ public class MaquiagemDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar maquiagens", e);
+            throw new ErroBancoDadosException("Erro ao listar maquiagens", e);
         }
 
         return lista;
@@ -87,7 +88,7 @@ public class MaquiagemDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar maquiagem", e);
+            throw new ErroBancoDadosException("Erro ao buscar maquiagem", e);
         }
 
         throw new EntidadeNaoEncontradaException("Maquiagem não encontrada");
@@ -126,7 +127,7 @@ public class MaquiagemDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inserir maquiagem", e);
+            throw new ErroBancoDadosException("Erro ao inserir maquiagem", e);
         }
 
         return maquiagem;
@@ -165,7 +166,7 @@ public class MaquiagemDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar maquiagem", e);
+            throw new ErroBancoDadosException("Erro ao atualizar maquiagem", e);
         }
 
         return maquiagem;
@@ -186,7 +187,7 @@ public class MaquiagemDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao deletar maquiagem", e);
+            throw new ErroBancoDadosException("Erro ao deletar maquiagem", e);
         }
     }
 }

@@ -1,6 +1,7 @@
 package br.com.fiap.espelhomeu.dao;
 
 import br.com.fiap.espelhomeu.exception.EntidadeNaoEncontradaException;
+import br.com.fiap.espelhomeu.exception.ErroBancoDadosException;
 import br.com.fiap.espelhomeu.model.RecomendacaoCor;
 import br.com.fiap.espelhomeu.model.ConsultoriaCapilar;
 import br.com.fiap.espelhomeu.model.CorCabelo;
@@ -62,7 +63,7 @@ public class RecomendacaoCorDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar recomendações de cor", e);
+            throw new ErroBancoDadosException("Erro ao listar recomendações de cor", e);
         }
 
         return lista;
@@ -112,7 +113,7 @@ public class RecomendacaoCorDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar recomendação de cor", e);
+            throw new ErroBancoDadosException("Erro ao buscar recomendação de cor", e);
         }
 
         throw new EntidadeNaoEncontradaException("Recomendação de cor não encontrada");
@@ -149,7 +150,7 @@ public class RecomendacaoCorDao {
             return recomendacao;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inserir recomendação de cor", e);
+            throw new ErroBancoDadosException("Erro ao inserir recomendação de cor", e);
         }
     }
 
@@ -184,7 +185,7 @@ public class RecomendacaoCorDao {
             return recomendacao;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar recomendação de cor", e);
+            throw new ErroBancoDadosException("Erro ao atualizar recomendação de cor", e);
         }
     }
 
@@ -206,7 +207,7 @@ public class RecomendacaoCorDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao deletar recomendação de cor", e);
+            throw new ErroBancoDadosException("Erro ao deletar recomendação de cor", e);
         }
     }
 }

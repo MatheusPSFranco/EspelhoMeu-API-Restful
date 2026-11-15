@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class ConsultoriaMaquiagemController {
     }
 
     @GetMapping
-    public List<DetalhesConsultoriaMaquiagem> listar() throws SQLException {
+    public List<DetalhesConsultoriaMaquiagem> listar()  {
         return dao.listar()
                 .stream()
                 .map(consultoria -> {
@@ -48,7 +47,7 @@ public class ConsultoriaMaquiagemController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DetalhesConsultoriaMaquiagem> buscar(
-            @PathVariable long id) throws SQLException {
+            @PathVariable long id)  {
 
         ConsultoriaMaquiagem consultoria = dao.buscar(id);
 
@@ -62,7 +61,7 @@ public class ConsultoriaMaquiagemController {
 
     @PostMapping
     public ResponseEntity<DetalhesConsultoriaMaquiagem> inserir(
-            @RequestBody @Valid CadastroConsultoriaMaquiagem dto) throws SQLException {
+            @RequestBody @Valid CadastroConsultoriaMaquiagem dto)  {
 
         ConsultoriaMaquiagem consultoria =
                 mapper.map(dto, ConsultoriaMaquiagem.class);
@@ -92,7 +91,7 @@ public class ConsultoriaMaquiagemController {
     @PutMapping("/{id}")
     public ResponseEntity<DetalhesConsultoriaMaquiagem> atualizar(
             @PathVariable long id,
-            @RequestBody @Valid AtualizacaoConsultoriaMaquiagem dto) throws SQLException {
+            @RequestBody @Valid AtualizacaoConsultoriaMaquiagem dto)  {
 
         ConsultoriaMaquiagem consultoria = dao.buscar(id);
 
@@ -114,7 +113,7 @@ public class ConsultoriaMaquiagemController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<Void> deletar(@PathVariable long id)  {
         dao.deletar(id);
         return ResponseEntity.noContent().build();
     }

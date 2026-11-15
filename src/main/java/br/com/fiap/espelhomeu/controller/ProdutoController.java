@@ -7,15 +7,12 @@ import br.com.fiap.espelhomeu.dto.DetalhesProduto;
 import br.com.fiap.espelhomeu.model.Produto;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.math.BigDecimal;
 import java.net.URI;
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -31,14 +28,14 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public List<DetalhesProduto> listar() throws SQLException {
+    public List<DetalhesProduto> listar()  {
         return dao.listar().stream()
                 .map(produto -> mapper.map(produto, DetalhesProduto.class))
                 .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DetalhesProduto> buscar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<DetalhesProduto> buscar(@PathVariable long id)  {
         Produto produto = dao.buscar(id);
 
         return ResponseEntity.ok(mapper.map(produto, DetalhesProduto.class));
@@ -47,7 +44,7 @@ public class ProdutoController {
     @PostMapping
     public ResponseEntity<DetalhesProduto> inserir(
             @RequestBody @Valid CadastroProduto dto,
-            UriComponentsBuilder uriBuilder) throws SQLException {
+            UriComponentsBuilder uriBuilder)  {
 
         Produto produto = mapper.map(dto, Produto.class);
 
@@ -68,7 +65,7 @@ public class ProdutoController {
     @PutMapping("/{id}")
     public ResponseEntity<DetalhesProduto> atualizar(
             @PathVariable long id,
-            @RequestBody @Valid AtualizacaoProduto dto) throws SQLException {
+            @RequestBody @Valid AtualizacaoProduto dto)  {
 
         Produto produto = dao.buscar(id);
 
@@ -82,7 +79,7 @@ public class ProdutoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<Void> deletar(@PathVariable long id)  {
         dao.deletar(id);
         return ResponseEntity.noContent().build();
     }

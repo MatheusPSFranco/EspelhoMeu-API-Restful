@@ -1,6 +1,7 @@
 package br.com.fiap.espelhomeu.dao;
 
 import br.com.fiap.espelhomeu.exception.EntidadeNaoEncontradaException;
+import br.com.fiap.espelhomeu.exception.ErroBancoDadosException;
 import br.com.fiap.espelhomeu.model.PerfilMaquiagem;
 import br.com.fiap.espelhomeu.model.Usuario;
 import org.springframework.stereotype.Repository;
@@ -58,7 +59,7 @@ public class PerfilMaquiagemDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar os Perfis de Maquiagem.", e);
+            throw new ErroBancoDadosException("Erro ao listar os Perfis de Maquiagem.", e);
         }
 
         return lista;
@@ -107,7 +108,7 @@ public class PerfilMaquiagemDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar o Perfil de Maquiagem.", e);
+            throw new ErroBancoDadosException("Erro ao buscar o Perfil de Maquiagem.", e);
         }
 
         throw new EntidadeNaoEncontradaException("Perfil de Maquiagem não encontrado.");
@@ -152,7 +153,7 @@ public class PerfilMaquiagemDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inserir o Perfil de Maquiagem.", e);
+            throw new ErroBancoDadosException("Erro ao inserir o Perfil de Maquiagem.", e);
         }
     }
 
@@ -200,7 +201,7 @@ public class PerfilMaquiagemDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar o Perfil de Maquiagem.", e);
+            throw new ErroBancoDadosException("Erro ao atualizar o Perfil de Maquiagem.", e);
         }
     }
 
@@ -219,7 +220,7 @@ public class PerfilMaquiagemDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao deletar o Perfil de Maquiagem.", e);
+            throw new ErroBancoDadosException("Erro ao deletar o Perfil de Maquiagem.", e);
         }
     }
 }

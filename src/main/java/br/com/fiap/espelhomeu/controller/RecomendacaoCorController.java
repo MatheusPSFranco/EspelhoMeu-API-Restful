@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -30,7 +29,7 @@ public class RecomendacaoCorController {
     }
 
     @GetMapping
-    public List<DetalhesRecomendacaoCor> listar() throws SQLException {
+    public List<DetalhesRecomendacaoCor> listar()  {
         return dao.listar()
                 .stream()
                 .map(recomendacao -> {
@@ -45,7 +44,7 @@ public class RecomendacaoCorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DetalhesRecomendacaoCor> buscar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<DetalhesRecomendacaoCor> buscar(@PathVariable long id)  {
         RecomendacaoCor recomendacao = dao.buscar(id);
 
         DetalhesRecomendacaoCor detalhes = mapper.map(recomendacao, DetalhesRecomendacaoCor.class);
@@ -58,7 +57,7 @@ public class RecomendacaoCorController {
 
     @PostMapping
     public ResponseEntity<DetalhesRecomendacaoCor> inserir(
-            @RequestBody @Valid CadastroRecomendacaoCor dto) throws SQLException {
+            @RequestBody @Valid CadastroRecomendacaoCor dto)  {
 
         RecomendacaoCor recomendacao = mapper.map(dto, RecomendacaoCor.class);
 
@@ -89,7 +88,7 @@ public class RecomendacaoCorController {
     @PutMapping("/{id}")
     public ResponseEntity<DetalhesRecomendacaoCor> atualizar(
             @PathVariable long id,
-            @RequestBody @Valid AtualizacaoRecomendacaoCor dto) throws SQLException {
+            @RequestBody @Valid AtualizacaoRecomendacaoCor dto)  {
 
         RecomendacaoCor recomendacao = dao.buscar(id);
 
@@ -114,7 +113,7 @@ public class RecomendacaoCorController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<Void> deletar(@PathVariable long id)  {
         dao.deletar(id);
 
         return ResponseEntity.noContent().build();

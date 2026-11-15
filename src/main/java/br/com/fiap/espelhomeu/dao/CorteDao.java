@@ -1,6 +1,7 @@
 package br.com.fiap.espelhomeu.dao;
 
 import br.com.fiap.espelhomeu.exception.EntidadeNaoEncontradaException;
+import br.com.fiap.espelhomeu.exception.ErroBancoDadosException;
 import br.com.fiap.espelhomeu.model.Corte;
 import org.springframework.stereotype.Repository;
 
@@ -43,7 +44,7 @@ public class CorteDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar cortes", e);
+            throw new ErroBancoDadosException("Erro ao listar cortes", e);
         }
 
         return lista;
@@ -76,7 +77,7 @@ public class CorteDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar corte", e);
+            throw new ErroBancoDadosException("Erro ao buscar corte", e);
         }
 
         throw new EntidadeNaoEncontradaException("Corte não encontrado");
@@ -108,7 +109,7 @@ public class CorteDao {
             return corte;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inserir corte", e);
+            throw new ErroBancoDadosException("Erro ao inserir corte", e);
         }
     }
 
@@ -137,7 +138,7 @@ public class CorteDao {
             return corte;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar corte", e);
+            throw new ErroBancoDadosException("Erro ao atualizar corte", e);
         }
     }
 
@@ -159,7 +160,7 @@ public class CorteDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao deletar corte", e);
+            throw new ErroBancoDadosException("Erro ao deletar corte", e);
         }
     }
 }

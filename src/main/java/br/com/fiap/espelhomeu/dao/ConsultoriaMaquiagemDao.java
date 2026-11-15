@@ -1,6 +1,7 @@
 package br.com.fiap.espelhomeu.dao;
 
 import br.com.fiap.espelhomeu.exception.EntidadeNaoEncontradaException;
+import br.com.fiap.espelhomeu.exception.ErroBancoDadosException;
 import br.com.fiap.espelhomeu.model.ConsultoriaMaquiagem;
 import br.com.fiap.espelhomeu.model.PerfilMaquiagem;
 import org.springframework.stereotype.Repository;
@@ -52,7 +53,7 @@ public class ConsultoriaMaquiagemDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar consultorias de maquiagem", e);
+            throw new ErroBancoDadosException("Erro ao listar consultorias de maquiagem", e);
         }
 
         return lista;
@@ -93,7 +94,7 @@ public class ConsultoriaMaquiagemDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar consultoria de maquiagem", e);
+            throw new ErroBancoDadosException("Erro ao buscar consultoria de maquiagem", e);
         }
 
         throw new EntidadeNaoEncontradaException("Consultoria de maquiagem não encontrada");
@@ -128,7 +129,7 @@ public class ConsultoriaMaquiagemDao {
             return consultoria;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inserir consultoria de maquiagem", e);
+            throw new ErroBancoDadosException("Erro ao inserir consultoria de maquiagem", e);
         }
     }
 
@@ -161,7 +162,7 @@ public class ConsultoriaMaquiagemDao {
             return consultoria;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar consultoria de maquiagem", e);
+            throw new ErroBancoDadosException("Erro ao atualizar consultoria de maquiagem", e);
         }
     }
 
@@ -183,7 +184,7 @@ public class ConsultoriaMaquiagemDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao deletar consultoria de maquiagem", e);
+            throw new ErroBancoDadosException("Erro ao deletar consultoria de maquiagem", e);
         }
     }
 }

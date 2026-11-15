@@ -1,6 +1,7 @@
 package br.com.fiap.espelhomeu.dao;
 
 import br.com.fiap.espelhomeu.exception.EntidadeNaoEncontradaException;
+import br.com.fiap.espelhomeu.exception.ErroBancoDadosException;
 import br.com.fiap.espelhomeu.model.RecomendacaoCorte;
 import br.com.fiap.espelhomeu.model.ConsultoriaCapilar;
 import br.com.fiap.espelhomeu.model.Corte;
@@ -62,7 +63,7 @@ public class RecomendacaoCorteDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar recomendações de corte", e);
+            throw new ErroBancoDadosException("Erro ao listar recomendações de corte", e);
         }
 
         return lista;
@@ -112,7 +113,7 @@ public class RecomendacaoCorteDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar recomendação de corte", e);
+            throw new ErroBancoDadosException("Erro ao buscar recomendação de corte", e);
         }
 
         throw new EntidadeNaoEncontradaException("Recomendação de corte não encontrada");
@@ -149,7 +150,7 @@ public class RecomendacaoCorteDao {
             return recomendacao;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inserir recomendação de corte", e);
+            throw new ErroBancoDadosException("Erro ao inserir recomendação de corte", e);
         }
     }
 
@@ -184,7 +185,7 @@ public class RecomendacaoCorteDao {
             return recomendacao;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar recomendação de corte", e);
+            throw new ErroBancoDadosException("Erro ao atualizar recomendação de corte", e);
         }
     }
 
@@ -206,7 +207,7 @@ public class RecomendacaoCorteDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao deletar recomendação de corte", e);
+            throw new ErroBancoDadosException("Erro ao deletar recomendação de corte", e);
         }
     }
 }

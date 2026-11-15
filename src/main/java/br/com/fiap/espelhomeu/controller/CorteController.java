@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -28,7 +27,7 @@ public class CorteController {
     }
 
     @GetMapping
-    public List<DetalhesCorte> listar() throws SQLException {
+    public List<DetalhesCorte> listar()  {
         return dao.listar()
                 .stream()
                 .map(corte -> mapper.map(corte, DetalhesCorte.class))
@@ -37,7 +36,7 @@ public class CorteController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DetalhesCorte> buscar(
-            @PathVariable long id) throws SQLException {
+            @PathVariable long id)  {
 
         Corte corte = dao.buscar(id);
 
@@ -48,7 +47,7 @@ public class CorteController {
 
     @PostMapping
     public ResponseEntity<DetalhesCorte> inserir(
-            @RequestBody @Valid CadastroCorte dto) throws SQLException {
+            @RequestBody @Valid CadastroCorte dto)  {
 
         Corte corte = mapper.map(dto, Corte.class);
 
@@ -68,7 +67,7 @@ public class CorteController {
     @PutMapping("/{id}")
     public ResponseEntity<DetalhesCorte> atualizar(
             @PathVariable long id,
-            @RequestBody @Valid AtualizacaoCorte dto) throws SQLException {
+            @RequestBody @Valid AtualizacaoCorte dto)  {
 
         Corte corte = dao.buscar(id);
 
@@ -82,7 +81,7 @@ public class CorteController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<Void> deletar(@PathVariable long id)  {
         dao.deletar(id);
         return ResponseEntity.noContent().build();
     }

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -30,7 +29,7 @@ public class RecomendacaoCorteProdutoController {
     }
 
     @GetMapping
-    public List<DetalhesRecomendacaoCorteProduto> listar() throws SQLException {
+    public List<DetalhesRecomendacaoCorteProduto> listar()  {
         return dao.listar().stream()
                 .map(recomendacao -> {
                     DetalhesRecomendacaoCorteProduto dto = mapper.map(recomendacao, DetalhesRecomendacaoCorteProduto.class);
@@ -44,7 +43,7 @@ public class RecomendacaoCorteProdutoController {
     @GetMapping("/{idProduto}/{idRecomendacaoCorte}")
     public ResponseEntity<DetalhesRecomendacaoCorteProduto> buscar(
             @PathVariable long idProduto,
-            @PathVariable long idRecomendacaoCorte) throws SQLException {
+            @PathVariable long idRecomendacaoCorte)  {
 
         RecomendacaoCorteProduto recomendacao = dao.buscar(idProduto, idRecomendacaoCorte);
 
@@ -58,7 +57,7 @@ public class RecomendacaoCorteProdutoController {
     @PostMapping
     public ResponseEntity<DetalhesRecomendacaoCorteProduto> inserir(
             @RequestBody @Valid CadastroRecomendacaoCorteProduto dto,
-            UriComponentsBuilder uriBuilder) throws SQLException {
+            UriComponentsBuilder uriBuilder)  {
 
         RecomendacaoCorteProduto recomendacao = mapper.map(dto, RecomendacaoCorteProduto.class);
 
@@ -91,7 +90,7 @@ public class RecomendacaoCorteProdutoController {
     public ResponseEntity<DetalhesRecomendacaoCorteProduto> atualizar(
             @PathVariable long idProduto,
             @PathVariable long idRecomendacaoCorte,
-            @RequestBody @Valid AtualizacaoRecomendacaoCorteProduto dto) throws SQLException {
+            @RequestBody @Valid AtualizacaoRecomendacaoCorteProduto dto)  {
 
         RecomendacaoCorteProduto recomendacao = dao.buscar(idProduto, idRecomendacaoCorte);
 
@@ -109,7 +108,7 @@ public class RecomendacaoCorteProdutoController {
     @DeleteMapping("/{idProduto}/{idRecomendacaoCorte}")
     public ResponseEntity<Void> deletar(
             @PathVariable long idProduto,
-            @PathVariable long idRecomendacaoCorte) throws SQLException {
+            @PathVariable long idRecomendacaoCorte)  {
 
         dao.deletar(idProduto, idRecomendacaoCorte);
         return ResponseEntity.noContent().build();

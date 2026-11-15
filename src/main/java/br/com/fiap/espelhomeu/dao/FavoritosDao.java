@@ -1,6 +1,7 @@
 package br.com.fiap.espelhomeu.dao;
 
 import br.com.fiap.espelhomeu.exception.EntidadeNaoEncontradaException;
+import br.com.fiap.espelhomeu.exception.ErroBancoDadosException;
 import br.com.fiap.espelhomeu.model.*;
 import org.springframework.stereotype.Repository;
 
@@ -115,7 +116,7 @@ public class FavoritosDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ErroBancoDadosException("Erro ao listar os favoritos",e);
         }
 
         return lista;
@@ -219,7 +220,7 @@ public class FavoritosDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ErroBancoDadosException("Erro ao buscar o favorito",e);
         }
 
         throw new EntidadeNaoEncontradaException("Favorito não encontrado.");
@@ -312,7 +313,7 @@ public class FavoritosDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ErroBancoDadosException("Erro ao inserir o favorito",e);
         }
     }
 
@@ -404,7 +405,7 @@ public class FavoritosDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ErroBancoDadosException("Erro ao atualizar oo favorito",e);
         }
     }
 
@@ -423,7 +424,7 @@ public class FavoritosDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ErroBancoDadosException("Erro ao deletar o favorito",e);
         }
     }
 }

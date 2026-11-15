@@ -1,6 +1,7 @@
 package br.com.fiap.espelhomeu.dao;
 
 import br.com.fiap.espelhomeu.exception.EntidadeNaoEncontradaException;
+import br.com.fiap.espelhomeu.exception.ErroBancoDadosException;
 import br.com.fiap.espelhomeu.model.ConsultoriaCapilar;
 import br.com.fiap.espelhomeu.model.Penteado;
 import br.com.fiap.espelhomeu.model.RecomendacaoPenteado;
@@ -53,7 +54,7 @@ public class RecomendacaoPenteadoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar recomendações de penteado", e);
+            throw new ErroBancoDadosException("Erro ao listar recomendações de penteado", e);
         }
 
         return lista;
@@ -93,7 +94,7 @@ public class RecomendacaoPenteadoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar recomendação de penteado", e);
+            throw new ErroBancoDadosException("Erro ao buscar recomendação de penteado", e);
         }
 
         throw new EntidadeNaoEncontradaException("Recomendação de penteado não encontrada");
@@ -126,7 +127,7 @@ public class RecomendacaoPenteadoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inserir recomendação de penteado", e);
+            throw new ErroBancoDadosException("Erro ao inserir recomendação de penteado", e);
         }
 
         return recomendacao;
@@ -159,7 +160,7 @@ public class RecomendacaoPenteadoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar recomendação de penteado", e);
+            throw new ErroBancoDadosException("Erro ao atualizar recomendação de penteado", e);
         }
 
         return recomendacao;
@@ -180,7 +181,7 @@ public class RecomendacaoPenteadoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao deletar recomendação de penteado", e);
+            throw new ErroBancoDadosException("Erro ao deletar recomendação de penteado", e);
         }
     }
 }

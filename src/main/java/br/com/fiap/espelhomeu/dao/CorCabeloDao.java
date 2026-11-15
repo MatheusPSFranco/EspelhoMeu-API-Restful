@@ -1,6 +1,7 @@
 package br.com.fiap.espelhomeu.dao;
 
 import br.com.fiap.espelhomeu.exception.EntidadeNaoEncontradaException;
+import br.com.fiap.espelhomeu.exception.ErroBancoDadosException;
 import br.com.fiap.espelhomeu.model.CorCabelo;
 import org.springframework.stereotype.Repository;
 
@@ -42,7 +43,7 @@ public class CorCabeloDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar cores de cabelo", e);
+            throw new ErroBancoDadosException("Erro ao listar cores de cabelo", e);
         }
 
         return lista;
@@ -74,7 +75,7 @@ public class CorCabeloDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar cor de cabelo", e);
+            throw new ErroBancoDadosException("Erro ao buscar cor de cabelo", e);
         }
 
         throw new EntidadeNaoEncontradaException("Cor de cabelo não encontrada");
@@ -105,7 +106,7 @@ public class CorCabeloDao {
             return cor;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inserir cor de cabelo", e);
+            throw new ErroBancoDadosException("Erro ao inserir cor de cabelo", e);
         }
     }
 
@@ -133,7 +134,7 @@ public class CorCabeloDao {
             return cor;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar cor de cabelo", e);
+            throw new ErroBancoDadosException("Erro ao atualizar cor de cabelo", e);
         }
     }
 
@@ -155,7 +156,7 @@ public class CorCabeloDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao deletar cor de cabelo", e);
+            throw new ErroBancoDadosException("Erro ao deletar cor de cabelo", e);
         }
     }
 }

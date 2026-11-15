@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -30,7 +29,7 @@ public class RecomendacaoMaquiagemController {
     }
 
     @GetMapping
-    public List<DetalhesRecomendacaoMaquiagem> listar() throws SQLException {
+    public List<DetalhesRecomendacaoMaquiagem> listar()  {
 
         return dao.listar().stream()
                 .map(recomendacao -> {
@@ -48,7 +47,7 @@ public class RecomendacaoMaquiagemController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DetalhesRecomendacaoMaquiagem> buscar(
-            @PathVariable long id) throws SQLException {
+            @PathVariable long id)  {
 
         RecomendacaoMaquiagem recomendacao = dao.buscar(id);
 
@@ -65,7 +64,7 @@ public class RecomendacaoMaquiagemController {
     @PostMapping
     public ResponseEntity<DetalhesRecomendacaoMaquiagem> inserir(
             @RequestBody @Valid CadastroRecomendacaoMaquiagem dto,
-            UriComponentsBuilder uriBuilder) throws SQLException {
+            UriComponentsBuilder uriBuilder)  {
 
         RecomendacaoMaquiagem recomendacao = mapper.map(
                 dto, RecomendacaoMaquiagem.class
@@ -99,7 +98,7 @@ public class RecomendacaoMaquiagemController {
     @PutMapping("/{id}")
     public ResponseEntity<DetalhesRecomendacaoMaquiagem> atualizar(
             @PathVariable long id,
-            @RequestBody @Valid AtualizacaoRecomendacaoMaquiagem dto) throws SQLException {
+            @RequestBody @Valid AtualizacaoRecomendacaoMaquiagem dto)  {
 
         RecomendacaoMaquiagem recomendacao = dao.buscar(id);
 
@@ -126,7 +125,7 @@ public class RecomendacaoMaquiagemController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<Void> deletar(@PathVariable long id)  {
 
         dao.deletar(id);
 

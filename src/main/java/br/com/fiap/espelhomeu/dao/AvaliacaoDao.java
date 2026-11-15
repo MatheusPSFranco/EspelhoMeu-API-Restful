@@ -1,6 +1,7 @@
 package br.com.fiap.espelhomeu.dao;
 
 import br.com.fiap.espelhomeu.exception.EntidadeNaoEncontradaException;
+import br.com.fiap.espelhomeu.exception.ErroBancoDadosException;
 import br.com.fiap.espelhomeu.model.*;
 import org.springframework.stereotype.Repository;
 
@@ -72,7 +73,7 @@ public class AvaliacaoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ErroBancoDadosException("Erro ao listar as avaliacoes",e);
         }
 
         return lista;
@@ -133,7 +134,7 @@ public class AvaliacaoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ErroBancoDadosException("Erro ao buscar a avaliacao",e);
         }
 
         throw new EntidadeNaoEncontradaException("Avaliação não encontrada.");
@@ -188,7 +189,7 @@ public class AvaliacaoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ErroBancoDadosException("Erro ao inserir a avaliacao",e);
         }
     }
 
@@ -240,7 +241,7 @@ public class AvaliacaoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ErroBancoDadosException("Erro ao atualizar a avaliacao",e);
         }
     }
 
@@ -259,7 +260,7 @@ public class AvaliacaoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ErroBancoDadosException("Erro ao deletar a avaliacao",e);
         }
     }
 }

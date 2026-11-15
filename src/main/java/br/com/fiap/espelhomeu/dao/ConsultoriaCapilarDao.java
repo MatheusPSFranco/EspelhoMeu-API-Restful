@@ -1,6 +1,7 @@
 package br.com.fiap.espelhomeu.dao;
 
 import br.com.fiap.espelhomeu.exception.EntidadeNaoEncontradaException;
+import br.com.fiap.espelhomeu.exception.ErroBancoDadosException;
 import br.com.fiap.espelhomeu.model.ConsultoriaCapilar;
 import br.com.fiap.espelhomeu.model.PerfilCabelo;
 import org.springframework.stereotype.Repository;
@@ -49,7 +50,7 @@ public class ConsultoriaCapilarDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar consultorias capilares", e);
+            throw new ErroBancoDadosException("Erro ao listar consultorias capilares", e);
         }
 
         return lista;
@@ -87,7 +88,7 @@ public class ConsultoriaCapilarDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar consultoria capilar", e);
+            throw new ErroBancoDadosException("Erro ao buscar consultoria capilar", e);
         }
 
         throw new EntidadeNaoEncontradaException("Consultoria capilar não encontrada");
@@ -117,7 +118,7 @@ public class ConsultoriaCapilarDao {
             return consultoria;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inserir consultoria capilar", e);
+            throw new ErroBancoDadosException("Erro ao inserir consultoria capilar", e);
         }
     }
 
@@ -144,7 +145,7 @@ public class ConsultoriaCapilarDao {
             return consultoria;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar consultoria capilar", e);
+            throw new ErroBancoDadosException("Erro ao atualizar consultoria capilar", e);
         }
     }
 
@@ -166,7 +167,7 @@ public class ConsultoriaCapilarDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao deletar consultoria capilar", e);
+            throw new ErroBancoDadosException("Erro ao deletar consultoria capilar", e);
         }
     }
 }

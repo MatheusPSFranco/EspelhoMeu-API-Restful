@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -28,7 +27,7 @@ public class FavoritosController {
     }
 
     @GetMapping
-    public List<DetalhesFavoritos> listar() throws SQLException {
+    public List<DetalhesFavoritos> listar()  {
         return dao.listar().stream().map(favoritos -> {
             DetalhesFavoritos detalhes = mapper.map(favoritos, DetalhesFavoritos.class);
 
@@ -52,7 +51,7 @@ public class FavoritosController {
     }
 
     @GetMapping("/{id}")
-    public DetalhesFavoritos buscar(@PathVariable long id) throws SQLException {
+    public DetalhesFavoritos buscar(@PathVariable long id)  {
         Favoritos favoritos = dao.buscar(id);
 
         DetalhesFavoritos detalhes = mapper.map(favoritos, DetalhesFavoritos.class);
@@ -78,7 +77,7 @@ public class FavoritosController {
     @PostMapping
     public ResponseEntity<DetalhesFavoritos> inserir(
             @RequestBody @Valid CadastroFavoritos dto,
-            UriComponentsBuilder uriBuilder) throws SQLException {
+            UriComponentsBuilder uriBuilder)  {
 
         Favoritos favoritos = mapper.map(dto, Favoritos.class);
 
@@ -175,7 +174,7 @@ public class FavoritosController {
     @PutMapping("/{id}")
     public ResponseEntity<DetalhesFavoritos> atualizar(
             @PathVariable long id,
-            @RequestBody @Valid AtualizacaoFavoritos dto) throws SQLException {
+            @RequestBody @Valid AtualizacaoFavoritos dto)  {
 
         Favoritos favoritos = dao.buscar(id);
 
@@ -279,7 +278,7 @@ public class FavoritosController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<Void> deletar(@PathVariable long id)  {
         dao.deletar(id);
         return ResponseEntity.noContent().build();
     }

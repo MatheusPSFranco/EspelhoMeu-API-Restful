@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -28,7 +27,7 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public List<DetalhesUsuario> listar() throws SQLException {
+    public List<DetalhesUsuario> listar()  {
         return dao.listar()
                 .stream()
                 .map(usuario -> mapper.map(usuario, DetalhesUsuario.class))
@@ -37,7 +36,7 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DetalhesUsuario> buscar(
-            @PathVariable long id) throws SQLException {
+            @PathVariable long id)  {
 
         Usuario usuario = dao.buscar(id);
 
@@ -48,7 +47,7 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity<DetalhesUsuario> inserir(
-            @RequestBody @Valid CadastroUsuario dto) throws SQLException {
+            @RequestBody @Valid CadastroUsuario dto)  {
 
         Usuario usuario = mapper.map(dto, Usuario.class);
 
@@ -68,7 +67,7 @@ public class UsuarioController {
     @PutMapping("/{id}")
     public ResponseEntity<DetalhesUsuario> atualizar(
             @PathVariable long id,
-            @RequestBody @Valid AtualizacaoUsuario dto) throws SQLException {
+            @RequestBody @Valid AtualizacaoUsuario dto)  {
 
         Usuario usuario = dao.buscar(id);
 
@@ -82,7 +81,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<Void> deletar(@PathVariable long id)  {
         dao.deletar(id);
         return ResponseEntity.noContent().build();
     }

@@ -1,6 +1,7 @@
 package br.com.fiap.espelhomeu.dao;
 
 import br.com.fiap.espelhomeu.exception.EntidadeNaoEncontradaException;
+import br.com.fiap.espelhomeu.exception.ErroBancoDadosException;
 import br.com.fiap.espelhomeu.model.Penteado;
 import org.springframework.stereotype.Repository;
 
@@ -43,7 +44,7 @@ public class PenteadoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar penteados", e);
+            throw new ErroBancoDadosException("Erro ao listar penteados", e);
         }
 
         return lista;
@@ -76,7 +77,7 @@ public class PenteadoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar penteado", e);
+            throw new ErroBancoDadosException("Erro ao buscar penteado", e);
         }
 
         throw new EntidadeNaoEncontradaException("Penteado não encontrado");
@@ -108,7 +109,7 @@ public class PenteadoDao {
             return penteado;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inserir penteado", e);
+            throw new ErroBancoDadosException("Erro ao inserir penteado", e);
         }
     }
 
@@ -137,7 +138,7 @@ public class PenteadoDao {
             return penteado;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar penteado", e);
+            throw new ErroBancoDadosException("Erro ao atualizar penteado", e);
         }
     }
 
@@ -159,7 +160,7 @@ public class PenteadoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao deletar penteado", e);
+            throw new ErroBancoDadosException("Erro ao deletar penteado", e);
         }
     }
 }

@@ -1,6 +1,7 @@
 package br.com.fiap.espelhomeu.dao;
 
 import br.com.fiap.espelhomeu.exception.EntidadeNaoEncontradaException;
+import br.com.fiap.espelhomeu.exception.ErroBancoDadosException;
 import br.com.fiap.espelhomeu.model.Usuario;
 import org.springframework.stereotype.Repository;
 
@@ -42,7 +43,7 @@ public class UsuarioDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar os Usuarios.", e);
+            throw new ErroBancoDadosException("Erro ao listar os Usuarios.", e);
         }
 
         return lista;
@@ -76,7 +77,7 @@ public class UsuarioDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar o Usuario.", e);
+            throw new ErroBancoDadosException("Erro ao buscar o Usuario.", e);
         }
 
         throw new EntidadeNaoEncontradaException("Usuario não encontrado.");
@@ -111,7 +112,7 @@ public class UsuarioDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inserir o Usuario.", e);
+            throw new ErroBancoDadosException("Erro ao inserir o Usuario.", e);
         }
     }
 
@@ -144,7 +145,7 @@ public class UsuarioDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar o Usuario.", e);
+            throw new ErroBancoDadosException("Erro ao atualizar o Usuario.", e);
         }
     }
 
@@ -163,7 +164,7 @@ public class UsuarioDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar o Usuario.", e);
+            throw new ErroBancoDadosException("Erro ao atualizar o Usuario.", e);
         }
     }
 }

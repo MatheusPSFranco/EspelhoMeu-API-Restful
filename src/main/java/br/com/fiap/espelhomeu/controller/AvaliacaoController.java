@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -28,7 +27,7 @@ public class AvaliacaoController {
     }
 
     @GetMapping
-    public List<DetalhesAvaliacao> listar() throws SQLException {
+    public List<DetalhesAvaliacao> listar() {
 
         return dao.listar().stream()
                 .map(avaliacao -> {
@@ -62,7 +61,7 @@ public class AvaliacaoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DetalhesAvaliacao> buscar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<DetalhesAvaliacao> buscar(@PathVariable long id) {
 
         Avaliacao avaliacao = dao.buscar(id);
 
@@ -96,7 +95,7 @@ public class AvaliacaoController {
     @PostMapping
     public ResponseEntity<DetalhesAvaliacao> inserir(
             @RequestBody @Valid CadastroAvaliacao dto,
-            UriComponentsBuilder uriBuilder) throws SQLException {
+            UriComponentsBuilder uriBuilder)  {
 
         Avaliacao avaliacao = mapper.map(dto, Avaliacao.class);
 
@@ -149,7 +148,7 @@ public class AvaliacaoController {
     @PutMapping("/{id}")
     public ResponseEntity<DetalhesAvaliacao> atualizar(
             @PathVariable long id,
-            @RequestBody @Valid AtualizacaoAvaliacao dto) throws SQLException {
+            @RequestBody @Valid AtualizacaoAvaliacao dto)  {
 
         Avaliacao avaliacao = dao.buscar(id);
 
@@ -202,7 +201,7 @@ public class AvaliacaoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<Void> deletar(@PathVariable long id)  {
 
         dao.deletar(id);
 

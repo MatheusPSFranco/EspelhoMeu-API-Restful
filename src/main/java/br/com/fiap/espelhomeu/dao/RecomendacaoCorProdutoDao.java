@@ -1,6 +1,7 @@
 package br.com.fiap.espelhomeu.dao;
 
 import br.com.fiap.espelhomeu.exception.EntidadeNaoEncontradaException;
+import br.com.fiap.espelhomeu.exception.ErroBancoDadosException;
 import br.com.fiap.espelhomeu.model.Produto;
 import br.com.fiap.espelhomeu.model.RecomendacaoCor;
 import br.com.fiap.espelhomeu.model.RecomendacaoCorProduto;
@@ -46,7 +47,7 @@ public class RecomendacaoCorProdutoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar recomendações de produtos para cores", e);
+            throw new ErroBancoDadosException("Erro ao listar recomendações de produtos para cores", e);
         }
 
         return lista;
@@ -81,7 +82,7 @@ public class RecomendacaoCorProdutoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar recomendação de produto para cor", e);
+            throw new ErroBancoDadosException("Erro ao buscar recomendação de produto para cor", e);
         }
 
         throw new EntidadeNaoEncontradaException("Recomendação de produto para cor não encontrada");
@@ -102,7 +103,7 @@ public class RecomendacaoCorProdutoDao {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inserir recomendação de produto para cor", e);
+            throw new ErroBancoDadosException("Erro ao inserir recomendação de produto para cor", e);
         }
 
         return recomendacao;
@@ -127,7 +128,7 @@ public class RecomendacaoCorProdutoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar recomendação de produto para cor", e);
+            throw new ErroBancoDadosException("Erro ao atualizar recomendação de produto para cor", e);
         }
 
         return recomendacao;
@@ -150,7 +151,7 @@ public class RecomendacaoCorProdutoDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao deletar recomendação de produto para cor", e);
+            throw new ErroBancoDadosException("Erro ao deletar recomendação de produto para cor", e);
         }
     }
 }

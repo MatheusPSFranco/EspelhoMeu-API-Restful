@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class ConsultoriaCapilarController {
     }
 
     @GetMapping
-    public List<DetalhesConsultoriaCapilar> listar() throws SQLException {
+    public List<DetalhesConsultoriaCapilar> listar()  {
         return dao.listar()
                 .stream()
                 .map(consultoria -> {
@@ -48,7 +47,7 @@ public class ConsultoriaCapilarController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DetalhesConsultoriaCapilar> buscar(
-            @PathVariable long id) throws SQLException {
+            @PathVariable long id)  {
 
         ConsultoriaCapilar consultoria = dao.buscar(id);
 
@@ -62,7 +61,7 @@ public class ConsultoriaCapilarController {
 
     @PostMapping
     public ResponseEntity<DetalhesConsultoriaCapilar> inserir(
-            @RequestBody @Valid CadastroConsultoriaCapilar dto) throws SQLException {
+            @RequestBody @Valid CadastroConsultoriaCapilar dto)  {
 
         ConsultoriaCapilar consultoria =
                 mapper.map(dto, ConsultoriaCapilar.class);
@@ -92,7 +91,7 @@ public class ConsultoriaCapilarController {
     @PutMapping("/{id}")
     public ResponseEntity<DetalhesConsultoriaCapilar> atualizar(
             @PathVariable long id,
-            @RequestBody @Valid AtualizacaoConsultoriaCapilar dto) throws SQLException {
+            @RequestBody @Valid AtualizacaoConsultoriaCapilar dto)  {
 
         ConsultoriaCapilar consultoria = dao.buscar(id);
 
@@ -114,7 +113,7 @@ public class ConsultoriaCapilarController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<Void> deletar(@PathVariable long id)  {
         dao.deletar(id);
         return ResponseEntity.noContent().build();
     }

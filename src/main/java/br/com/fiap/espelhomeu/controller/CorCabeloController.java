@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -28,7 +27,7 @@ public class CorCabeloController {
     }
 
     @GetMapping
-    public List<DetalhesCorCabelo> listar() throws SQLException {
+    public List<DetalhesCorCabelo> listar()  {
         return dao.listar()
                 .stream()
                 .map(cor -> mapper.map(cor, DetalhesCorCabelo.class))
@@ -36,7 +35,7 @@ public class CorCabeloController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DetalhesCorCabelo> buscar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<DetalhesCorCabelo> buscar(@PathVariable long id)  {
         CorCabelo cor = dao.buscar(id);
 
         DetalhesCorCabelo detalhes = mapper.map(cor, DetalhesCorCabelo.class);
@@ -46,7 +45,7 @@ public class CorCabeloController {
 
     @PostMapping
     public ResponseEntity<DetalhesCorCabelo> inserir(
-            @RequestBody @Valid CadastroCorCabelo dto) throws SQLException {
+            @RequestBody @Valid CadastroCorCabelo dto)  {
 
         CorCabelo cor = mapper.map(dto, CorCabelo.class);
 
@@ -66,7 +65,7 @@ public class CorCabeloController {
     @PutMapping("/{id}")
     public ResponseEntity<DetalhesCorCabelo> atualizar(
             @PathVariable long id,
-            @RequestBody @Valid AtualizacaoCorCabelo dto) throws SQLException {
+            @RequestBody @Valid AtualizacaoCorCabelo dto)  {
 
         CorCabelo cor = dao.buscar(id);
 
@@ -80,7 +79,7 @@ public class CorCabeloController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable long id) throws SQLException {
+    public ResponseEntity<Void> deletar(@PathVariable long id)  {
         dao.deletar(id);
 
         return ResponseEntity.noContent().build();

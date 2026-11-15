@@ -1,6 +1,7 @@
 package br.com.fiap.espelhomeu.dao;
 
 import br.com.fiap.espelhomeu.exception.EntidadeNaoEncontradaException;
+import br.com.fiap.espelhomeu.exception.ErroBancoDadosException;
 import br.com.fiap.espelhomeu.model.PerfilCabelo;
 import br.com.fiap.espelhomeu.model.Usuario;
 import org.springframework.stereotype.Repository;
@@ -57,7 +58,7 @@ public class PerfilCabeloDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar os Perfil de Cabelo.", e);
+            throw new ErroBancoDadosException("Erro ao listar os Perfil de Cabelo.", e);
         }
 
         return lista;
@@ -105,7 +106,7 @@ public class PerfilCabeloDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar o Perfil de Cabelo.", e);
+            throw new ErroBancoDadosException("Erro ao buscar o Perfil de Cabelo.", e);
         }
 
         throw new EntidadeNaoEncontradaException("Perfil de Cabelo não encontrado.");
@@ -149,7 +150,7 @@ public class PerfilCabeloDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inserir o Perfil de Cabelo.", e);
+            throw new ErroBancoDadosException("Erro ao inserir o Perfil de Cabelo.", e);
         }
     }
 
@@ -196,7 +197,7 @@ public class PerfilCabeloDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar o Perfil de Cabelo.", e);
+            throw new ErroBancoDadosException("Erro ao atualizar o Perfil de Cabelo.", e);
         }
     }
 
@@ -215,7 +216,7 @@ public class PerfilCabeloDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar o Perfil de Cabelo.", e);
+            throw new ErroBancoDadosException("Erro ao atualizar o Perfil de Cabelo.", e);
         }
     }
 }

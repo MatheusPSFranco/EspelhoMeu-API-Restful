@@ -1,6 +1,7 @@
 package br.com.fiap.espelhomeu.dao;
 
 import br.com.fiap.espelhomeu.exception.EntidadeNaoEncontradaException;
+import br.com.fiap.espelhomeu.exception.ErroBancoDadosException;
 import br.com.fiap.espelhomeu.model.ConsultoriaMaquiagem;
 import br.com.fiap.espelhomeu.model.Maquiagem;
 import br.com.fiap.espelhomeu.model.RecomendacaoMaquiagem;
@@ -54,7 +55,7 @@ public class RecomendacaoMaquiagemDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ErroBancoDadosException("Erro ao listar as Recomendacoes de Maquiagem",e);
         }
 
         return lista;
@@ -94,7 +95,7 @@ public class RecomendacaoMaquiagemDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ErroBancoDadosException("Erro ao buscar a Recomendacao de Maquiagem",e);
         }
 
         throw new EntidadeNaoEncontradaException("Recomendação de maquiagem não encontrada.");
@@ -127,7 +128,7 @@ public class RecomendacaoMaquiagemDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ErroBancoDadosException("Erro ao inserir a Recomendacao de Maquiagem",e);
         }
     }
 
@@ -158,7 +159,7 @@ public class RecomendacaoMaquiagemDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ErroBancoDadosException("Erro ao atualizar a Recomendacao de Maquiagem",e);
         }
     }
 
@@ -177,7 +178,7 @@ public class RecomendacaoMaquiagemDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ErroBancoDadosException("Erro ao deletar a Recomendacao de Maquiagem",e);
         }
     }
 }
