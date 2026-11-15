@@ -1,7 +1,12 @@
 package br.com.fiap.espelhomeu.controller;
 
 import br.com.fiap.espelhomeu.dao.PenteadoDao;
+import br.com.fiap.espelhomeu.dto.AtualizacaoPenteado;
+import br.com.fiap.espelhomeu.dto.CadastroPenteado;
+import br.com.fiap.espelhomeu.dto.DetalhesPenteado;
 import br.com.fiap.espelhomeu.model.Penteado;
+import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -15,26 +20,39 @@ import java.util.List;
 public class PenteadoController {
 
     private final PenteadoDao dao;
+    private final ModelMapper mapper;
 
-    public PenteadoController(PenteadoDao dao) {
+    public PenteadoController(PenteadoDao dao, ModelMapper mapper) {
         this.dao = dao;
+        this.mapper = mapper;
     }
 
     @GetMapping
-    public List<Penteado> listar() throws SQLException {
-        return dao.listar();
+    public List<DetalhesPenteado> listar() throws SQLException {
+        return dao.listar()
+                .stream()
+                .map(penteado -> mapper.map(penteado, DetalhesPenteado.class))
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Penteado> buscar(@PathVariable long id) throws SQLException {
-        return ResponseEntity.ok(dao.buscar(id));
+    public ResponseEntity<DetalhesPenteado> buscar(@PathVariable long id) throws SQLException {
+        Penteado penteado = dao.buscar(id);
+
+        DetalhesPenteado detalhes = mapper.map(penteado, DetalhesPenteado.class);
+
+        return ResponseEntity.ok(detalhes);
     }
 
     @PostMapping
-    public ResponseEntity<Penteado> inserir(
-            @RequestBody Penteado penteado) throws SQLException {
+    public ResponseEntity<DetalhesPenteado> inserir(
+            @RequestBody @Valid CadastroPenteado dto) throws SQLException {
+
+        Penteado penteado = mapper.map(dto, Penteado.class);
 
         dao.inserir(penteado);
+
+        DetalhesPenteado detalhes = mapper.map(penteado, DetalhesPenteado.class);
 
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -42,23 +60,29 @@ public class PenteadoController {
                 .buildAndExpand(penteado.getId())
                 .toUri();
 
-        return ResponseEntity.created(uri).body(penteado);
+        return ResponseEntity.created(uri).body(detalhes);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Penteado> atualizar(
+    public ResponseEntity<DetalhesPenteado> atualizar(
             @PathVariable long id,
-            @RequestBody Penteado penteado) throws SQLException {
+            @RequestBody @Valid AtualizacaoPenteado dto) throws SQLException {
 
-        penteado.setId(id);
+        Penteado penteado = dao.buscar(id);
+
+        mapper.map(dto, penteado);
+
         dao.atualizar(penteado);
 
-        return ResponseEntity.ok(penteado);
+        DetalhesPenteado detalhes = mapper.map(penteado, DetalhesPenteado.class);
+
+        return ResponseEntity.ok(detalhes);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable long id) throws SQLException {
         dao.deletar(id);
+
         return ResponseEntity.noContent().build();
     }
 }

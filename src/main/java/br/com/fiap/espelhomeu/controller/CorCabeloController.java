@@ -1,7 +1,12 @@
 package br.com.fiap.espelhomeu.controller;
 
 import br.com.fiap.espelhomeu.dao.CorCabeloDao;
+import br.com.fiap.espelhomeu.dto.AtualizacaoCorCabelo;
+import br.com.fiap.espelhomeu.dto.CadastroCorCabelo;
+import br.com.fiap.espelhomeu.dto.DetalhesCorCabelo;
 import br.com.fiap.espelhomeu.model.CorCabelo;
+import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -15,26 +20,39 @@ import java.util.List;
 public class CorCabeloController {
 
     private final CorCabeloDao dao;
+    private final ModelMapper mapper;
 
-    public CorCabeloController(CorCabeloDao dao) {
+    public CorCabeloController(CorCabeloDao dao, ModelMapper mapper) {
         this.dao = dao;
+        this.mapper = mapper;
     }
 
     @GetMapping
-    public List<CorCabelo> listar() throws SQLException {
-        return dao.listar();
+    public List<DetalhesCorCabelo> listar() throws SQLException {
+        return dao.listar()
+                .stream()
+                .map(cor -> mapper.map(cor, DetalhesCorCabelo.class))
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CorCabelo> buscar(@PathVariable long id) throws SQLException {
-        return ResponseEntity.ok(dao.buscar(id));
+    public ResponseEntity<DetalhesCorCabelo> buscar(@PathVariable long id) throws SQLException {
+        CorCabelo cor = dao.buscar(id);
+
+        DetalhesCorCabelo detalhes = mapper.map(cor, DetalhesCorCabelo.class);
+
+        return ResponseEntity.ok(detalhes);
     }
 
     @PostMapping
-    public ResponseEntity<CorCabelo> inserir(
-            @RequestBody CorCabelo cor) throws SQLException {
+    public ResponseEntity<DetalhesCorCabelo> inserir(
+            @RequestBody @Valid CadastroCorCabelo dto) throws SQLException {
+
+        CorCabelo cor = mapper.map(dto, CorCabelo.class);
 
         dao.inserir(cor);
+
+        DetalhesCorCabelo detalhes = mapper.map(cor, DetalhesCorCabelo.class);
 
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -42,23 +60,29 @@ public class CorCabeloController {
                 .buildAndExpand(cor.getId())
                 .toUri();
 
-        return ResponseEntity.created(uri).body(cor);
+        return ResponseEntity.created(uri).body(detalhes);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CorCabelo> atualizar(
+    public ResponseEntity<DetalhesCorCabelo> atualizar(
             @PathVariable long id,
-            @RequestBody CorCabelo cor) throws SQLException {
+            @RequestBody @Valid AtualizacaoCorCabelo dto) throws SQLException {
 
-        cor.setId(id);
+        CorCabelo cor = dao.buscar(id);
+
+        mapper.map(dto, cor);
+
         dao.atualizar(cor);
 
-        return ResponseEntity.ok(cor);
+        DetalhesCorCabelo detalhes = mapper.map(cor, DetalhesCorCabelo.class);
+
+        return ResponseEntity.ok(detalhes);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable long id) throws SQLException {
         dao.deletar(id);
+
         return ResponseEntity.noContent().build();
     }
 }

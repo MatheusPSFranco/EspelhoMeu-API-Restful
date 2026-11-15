@@ -1,7 +1,14 @@
 package br.com.fiap.espelhomeu.controller;
 
 import br.com.fiap.espelhomeu.dao.RecomendacaoCorteDao;
+import br.com.fiap.espelhomeu.dto.AtualizacaoRecomendacaoCorte;
+import br.com.fiap.espelhomeu.dto.CadastroRecomendacaoCorte;
+import br.com.fiap.espelhomeu.dto.DetalhesRecomendacaoCorte;
+import br.com.fiap.espelhomeu.model.ConsultoriaCapilar;
+import br.com.fiap.espelhomeu.model.Corte;
 import br.com.fiap.espelhomeu.model.RecomendacaoCorte;
+import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -15,26 +22,60 @@ import java.util.List;
 public class RecomendacaoCorteController {
 
     private final RecomendacaoCorteDao dao;
+    private final ModelMapper mapper;
 
-    public RecomendacaoCorteController(RecomendacaoCorteDao dao) {
+    public RecomendacaoCorteController(RecomendacaoCorteDao dao, ModelMapper mapper) {
         this.dao = dao;
+        this.mapper = mapper;
     }
 
     @GetMapping
-    public List<RecomendacaoCorte> listar() throws SQLException {
-        return dao.listar();
+    public List<DetalhesRecomendacaoCorte> listar() throws SQLException {
+        return dao.listar()
+                .stream()
+                .map(recomendacao -> {
+                    DetalhesRecomendacaoCorte detalhes = mapper.map(recomendacao, DetalhesRecomendacaoCorte.class);
+
+                    detalhes.setConsultoriaCapilarId(recomendacao.getConsultoriaCapilar().getId());
+                    detalhes.setCorteId(recomendacao.getCorte().getId());
+
+                    return detalhes;
+                })
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RecomendacaoCorte> buscar(@PathVariable long id) throws SQLException {
-        return ResponseEntity.ok(dao.buscar(id));
+    public ResponseEntity<DetalhesRecomendacaoCorte> buscar(@PathVariable long id) throws SQLException {
+        RecomendacaoCorte recomendacao = dao.buscar(id);
+
+        DetalhesRecomendacaoCorte detalhes = mapper.map(recomendacao, DetalhesRecomendacaoCorte.class);
+
+        detalhes.setConsultoriaCapilarId(recomendacao.getConsultoriaCapilar().getId());
+        detalhes.setCorteId(recomendacao.getCorte().getId());
+
+        return ResponseEntity.ok(detalhes);
     }
 
     @PostMapping
-    public ResponseEntity<RecomendacaoCorte> inserir(
-            @RequestBody RecomendacaoCorte recomendacao) throws SQLException {
+    public ResponseEntity<DetalhesRecomendacaoCorte> inserir(
+            @RequestBody @Valid CadastroRecomendacaoCorte dto) throws SQLException {
+
+        RecomendacaoCorte recomendacao = mapper.map(dto, RecomendacaoCorte.class);
+
+        ConsultoriaCapilar consultoria = new ConsultoriaCapilar();
+        consultoria.setId(dto.getConsultoriaCapilarId());
+        recomendacao.setConsultoriaCapilar(consultoria);
+
+        Corte corte = new Corte();
+        corte.setId(dto.getCorteId());
+        recomendacao.setCorte(corte);
 
         dao.inserir(recomendacao);
+
+        DetalhesRecomendacaoCorte detalhes = mapper.map(recomendacao, DetalhesRecomendacaoCorte.class);
+
+        detalhes.setConsultoriaCapilarId(recomendacao.getConsultoriaCapilar().getId());
+        detalhes.setCorteId(recomendacao.getCorte().getId());
 
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -42,18 +83,34 @@ public class RecomendacaoCorteController {
                 .buildAndExpand(recomendacao.getId())
                 .toUri();
 
-        return ResponseEntity.created(uri).body(recomendacao);
+        return ResponseEntity.created(uri).body(detalhes);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RecomendacaoCorte> atualizar(
+    public ResponseEntity<DetalhesRecomendacaoCorte> atualizar(
             @PathVariable long id,
-            @RequestBody RecomendacaoCorte recomendacao) throws SQLException {
+            @RequestBody @Valid AtualizacaoRecomendacaoCorte dto) throws SQLException {
 
-        recomendacao.setId(id);
+        RecomendacaoCorte recomendacao = dao.buscar(id);
+
+        mapper.map(dto, recomendacao);
+
+        ConsultoriaCapilar consultoria = new ConsultoriaCapilar();
+        consultoria.setId(dto.getConsultoriaCapilarId());
+        recomendacao.setConsultoriaCapilar(consultoria);
+
+        Corte corte = new Corte();
+        corte.setId(dto.getCorteId());
+        recomendacao.setCorte(corte);
+
         dao.atualizar(recomendacao);
 
-        return ResponseEntity.ok(recomendacao);
+        DetalhesRecomendacaoCorte detalhes = mapper.map(recomendacao, DetalhesRecomendacaoCorte.class);
+
+        detalhes.setConsultoriaCapilarId(recomendacao.getConsultoriaCapilar().getId());
+        detalhes.setCorteId(recomendacao.getCorte().getId());
+
+        return ResponseEntity.ok(detalhes);
     }
 
     @DeleteMapping("/{id}")

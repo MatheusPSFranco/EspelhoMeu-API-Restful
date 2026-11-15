@@ -1,7 +1,12 @@
 package br.com.fiap.espelhomeu.controller;
 
 import br.com.fiap.espelhomeu.dao.CorteDao;
+import br.com.fiap.espelhomeu.dto.AtualizacaoCorte;
+import br.com.fiap.espelhomeu.dto.CadastroCorte;
+import br.com.fiap.espelhomeu.dto.DetalhesCorte;
 import br.com.fiap.espelhomeu.model.Corte;
+import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -15,24 +20,37 @@ import java.util.List;
 public class CorteController {
 
     private final CorteDao dao;
+    private final ModelMapper mapper;
 
-    public CorteController(CorteDao dao) {
+    public CorteController(CorteDao dao, ModelMapper mapper) {
         this.dao = dao;
+        this.mapper = mapper;
     }
 
     @GetMapping
-    public List<Corte> listar() throws SQLException {
-        return dao.listar();
+    public List<DetalhesCorte> listar() throws SQLException {
+        return dao.listar()
+                .stream()
+                .map(corte -> mapper.map(corte, DetalhesCorte.class))
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Corte> buscar(@PathVariable long id) throws SQLException {
-        return ResponseEntity.ok(dao.buscar(id));
+    public ResponseEntity<DetalhesCorte> buscar(
+            @PathVariable long id) throws SQLException {
+
+        Corte corte = dao.buscar(id);
+
+        DetalhesCorte dto = mapper.map(corte, DetalhesCorte.class);
+
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping
-    public ResponseEntity<Corte> inserir(
-            @RequestBody Corte corte) throws SQLException {
+    public ResponseEntity<DetalhesCorte> inserir(
+            @RequestBody @Valid CadastroCorte dto) throws SQLException {
+
+        Corte corte = mapper.map(dto, Corte.class);
 
         dao.inserir(corte);
 
@@ -42,18 +60,25 @@ public class CorteController {
                 .buildAndExpand(corte.getId())
                 .toUri();
 
-        return ResponseEntity.created(uri).body(corte);
+        DetalhesCorte detalhes = mapper.map(corte, DetalhesCorte.class);
+
+        return ResponseEntity.created(uri).body(detalhes);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Corte> atualizar(
+    public ResponseEntity<DetalhesCorte> atualizar(
             @PathVariable long id,
-            @RequestBody Corte corte) throws SQLException {
+            @RequestBody @Valid AtualizacaoCorte dto) throws SQLException {
 
-        corte.setId(id);
+        Corte corte = dao.buscar(id);
+
+        mapper.map(dto, corte);
+
         dao.atualizar(corte);
 
-        return ResponseEntity.ok(corte);
+        DetalhesCorte detalhes = mapper.map(corte, DetalhesCorte.class);
+
+        return ResponseEntity.ok(detalhes);
     }
 
     @DeleteMapping("/{id}")
