@@ -1,71 +1,113 @@
 package br.com.fiap.espelhomeu.controller;
 
 import br.com.fiap.espelhomeu.dao.PerfilCabeloDao;
+import br.com.fiap.espelhomeu.dto.AtualizacaoPerfilCabelo;
+import br.com.fiap.espelhomeu.dto.CadastroPerfilCabelo;
+import br.com.fiap.espelhomeu.dto.DetalhesPerfilCabelo;
 import br.com.fiap.espelhomeu.model.PerfilCabelo;
 import br.com.fiap.espelhomeu.model.Usuario;
+import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 @RequestMapping("/perfilcabelo")
 public class PerfilCabeloController {
+
     private final PerfilCabeloDao dao;
-    public PerfilCabeloController(PerfilCabeloDao dao) {
+    private final ModelMapper mapper;
+
+    public PerfilCabeloController(PerfilCabeloDao dao, ModelMapper mapper) {
         this.dao = dao;
+        this.mapper = mapper;
     }
 
     @GetMapping
-    public List<PerfilCabelo> listar() throws SQLException {
-        return dao.listar();
+    public List<DetalhesPerfilCabelo> listar() throws SQLException {
+        return dao.listar()
+                .stream()
+                .map(perfil -> {
+                    DetalhesPerfilCabelo dto =
+                            mapper.map(perfil, DetalhesPerfilCabelo.class);
+
+                    dto.setUsuarioId(perfil.getUsuario().getId());
+
+                    return dto;
+                })
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PerfilCabelo> buscar(@PathVariable Long id)
-            throws SQLException {
+    public ResponseEntity<DetalhesPerfilCabelo> buscar(
+            @PathVariable long id) throws SQLException {
 
-        PerfilCabelo perfilCabelo = dao.buscar(id);
+        PerfilCabelo perfil = dao.buscar(id);
 
-        return ResponseEntity.ok(perfilCabelo);
+        DetalhesPerfilCabelo dto =
+                mapper.map(perfil, DetalhesPerfilCabelo.class);
+
+        dto.setUsuarioId(perfil.getUsuario().getId());
+
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping
-    public ResponseEntity<PerfilCabelo> adicionar(
-            @RequestBody PerfilCabelo perfilCabelo,
-            UriComponentsBuilder uriBuilder) throws SQLException {
+    public ResponseEntity<DetalhesPerfilCabelo> inserir(
+            @RequestBody @Valid CadastroPerfilCabelo dto) throws SQLException {
 
+        PerfilCabelo perfil = mapper.map(dto, PerfilCabelo.class);
 
-        dao.inserir(perfilCabelo);
+        Usuario usuario = new Usuario();
+        usuario.setId(dto.getUsuarioId());
 
-        URI uri = uriBuilder.path("/perfilCabelo/{id}")
-                .buildAndExpand(perfilCabelo.getId())
+        perfil.setUsuario(usuario);
+        perfil.setData(LocalDateTime.now());
+
+        dao.inserir(perfil);
+
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(perfil.getId())
                 .toUri();
 
-        return ResponseEntity.created(uri).body(perfilCabelo);
+        DetalhesPerfilCabelo detalhes =
+                mapper.map(perfil, DetalhesPerfilCabelo.class);
+
+        detalhes.setUsuarioId(perfil.getUsuario().getId());
+
+        return ResponseEntity.created(uri).body(detalhes);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> atualizar(
-            @PathVariable Long id,
-            @RequestBody PerfilCabelo perfilCabelo) throws SQLException {
+    public ResponseEntity<DetalhesPerfilCabelo> atualizar(
+            @PathVariable long id,
+            @RequestBody @Valid AtualizacaoPerfilCabelo dto) throws SQLException {
 
-        perfilCabelo.setId(id);
+        PerfilCabelo perfil = dao.buscar(id);
 
-        dao.atualizar(perfilCabelo);
+        mapper.map(dto, perfil);
 
-        return ResponseEntity.ok().build();
+        dao.atualizar(perfil);
+
+        DetalhesPerfilCabelo detalhes =
+                mapper.map(perfil, DetalhesPerfilCabelo.class);
+
+        detalhes.setUsuarioId(perfil.getUsuario().getId());
+
+        return ResponseEntity.ok(detalhes);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id)
-            throws SQLException {
-
+    public ResponseEntity<Void> deletar(@PathVariable long id) throws SQLException {
         dao.deletar(id);
-
         return ResponseEntity.noContent().build();
     }
 }

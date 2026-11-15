@@ -1,13 +1,20 @@
 package br.com.fiap.espelhomeu.controller;
 
 import br.com.fiap.espelhomeu.dao.ConsultoriaMaquiagemDao;
+import br.com.fiap.espelhomeu.dto.AtualizacaoConsultoriaMaquiagem;
+import br.com.fiap.espelhomeu.dto.CadastroConsultoriaMaquiagem;
+import br.com.fiap.espelhomeu.dto.DetalhesConsultoriaMaquiagem;
 import br.com.fiap.espelhomeu.model.ConsultoriaMaquiagem;
+import br.com.fiap.espelhomeu.model.PerfilMaquiagem;
+import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -15,24 +22,56 @@ import java.util.List;
 public class ConsultoriaMaquiagemController {
 
     private final ConsultoriaMaquiagemDao dao;
+    private final ModelMapper mapper;
 
-    public ConsultoriaMaquiagemController(ConsultoriaMaquiagemDao dao) {
+    public ConsultoriaMaquiagemController(
+            ConsultoriaMaquiagemDao dao,
+            ModelMapper mapper) {
         this.dao = dao;
+        this.mapper = mapper;
     }
 
     @GetMapping
-    public List<ConsultoriaMaquiagem> listar() throws SQLException {
-        return dao.listar();
+    public List<DetalhesConsultoriaMaquiagem> listar() throws SQLException {
+        return dao.listar()
+                .stream()
+                .map(consultoria -> {
+                    DetalhesConsultoriaMaquiagem dto =
+                            mapper.map(consultoria, DetalhesConsultoriaMaquiagem.class);
+
+                    dto.setPerfilMaquiagemId(consultoria.getPerfilMaquiagem().getId());
+
+                    return dto;
+                })
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ConsultoriaMaquiagem> buscar(@PathVariable long id) throws SQLException {
-        return ResponseEntity.ok(dao.buscar(id));
+    public ResponseEntity<DetalhesConsultoriaMaquiagem> buscar(
+            @PathVariable long id) throws SQLException {
+
+        ConsultoriaMaquiagem consultoria = dao.buscar(id);
+
+        DetalhesConsultoriaMaquiagem dto =
+                mapper.map(consultoria, DetalhesConsultoriaMaquiagem.class);
+
+        dto.setPerfilMaquiagemId(consultoria.getPerfilMaquiagem().getId());
+
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping
-    public ResponseEntity<ConsultoriaMaquiagem> inserir(
-            @RequestBody ConsultoriaMaquiagem consultoria) throws SQLException {
+    public ResponseEntity<DetalhesConsultoriaMaquiagem> inserir(
+            @RequestBody @Valid CadastroConsultoriaMaquiagem dto) throws SQLException {
+
+        ConsultoriaMaquiagem consultoria =
+                mapper.map(dto, ConsultoriaMaquiagem.class);
+
+        PerfilMaquiagem perfilMaquiagem = new PerfilMaquiagem();
+        perfilMaquiagem.setId(dto.getPerfilMaquiagemId());
+
+        consultoria.setPerfilMaquiagem(perfilMaquiagem);
+        consultoria.setData(LocalDateTime.now());
 
         dao.inserir(consultoria);
 
@@ -42,18 +81,36 @@ public class ConsultoriaMaquiagemController {
                 .buildAndExpand(consultoria.getId())
                 .toUri();
 
-        return ResponseEntity.created(uri).body(consultoria);
+        DetalhesConsultoriaMaquiagem detalhes =
+                mapper.map(consultoria, DetalhesConsultoriaMaquiagem.class);
+
+        detalhes.setPerfilMaquiagemId(consultoria.getPerfilMaquiagem().getId());
+
+        return ResponseEntity.created(uri).body(detalhes);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ConsultoriaMaquiagem> atualizar(
+    public ResponseEntity<DetalhesConsultoriaMaquiagem> atualizar(
             @PathVariable long id,
-            @RequestBody ConsultoriaMaquiagem consultoria) throws SQLException {
+            @RequestBody @Valid AtualizacaoConsultoriaMaquiagem dto) throws SQLException {
 
-        consultoria.setId(id);
+        ConsultoriaMaquiagem consultoria = dao.buscar(id);
+
+        mapper.map(dto, consultoria);
+
+        PerfilMaquiagem perfilMaquiagem = new PerfilMaquiagem();
+        perfilMaquiagem.setId(dto.getPerfilMaquiagemId());
+
+        consultoria.setPerfilMaquiagem(perfilMaquiagem);
+
         dao.atualizar(consultoria);
 
-        return ResponseEntity.ok(consultoria);
+        DetalhesConsultoriaMaquiagem detalhes =
+                mapper.map(consultoria, DetalhesConsultoriaMaquiagem.class);
+
+        detalhes.setPerfilMaquiagemId(consultoria.getPerfilMaquiagem().getId());
+
+        return ResponseEntity.ok(detalhes);
     }
 
     @DeleteMapping("/{id}")

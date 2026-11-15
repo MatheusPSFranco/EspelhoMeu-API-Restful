@@ -1,20 +1,20 @@
 package br.com.fiap.espelhomeu.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class Usuario {
 
     private Long id;
     private String nome;
     private String email;
-    private LocalDateTime data;
+    private LocalDate data;
     private String telefone;
     private String status;
 
     //Constructor
     public Usuario() {}
 
-    public Usuario(Long id, String nome, String email, LocalDateTime data, String telefone, String status) {
+    public Usuario(Long id, String nome, String email, LocalDate data, String telefone, String status) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -48,11 +48,11 @@ public class Usuario {
         this.email = email;
     }
 
-    public LocalDateTime getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(LocalDateTime data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 

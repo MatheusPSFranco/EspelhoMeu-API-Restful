@@ -35,7 +35,7 @@ public class UsuarioDao {
                 usuario.setId(rs.getLong("ID_USUARIO"));
                 usuario.setNome(rs.getString("NM_USUARIO"));
                 usuario.setEmail(rs.getString("EM_USUARIO"));
-                usuario.setData(rs.getTimestamp("DT_NASCIMENTO").toLocalDateTime());
+                usuario.setData(rs.getDate("DT_NASCIMENTO").toLocalDate());
                 usuario.setTelefone(rs.getString("TL_USUARIO"));
                 usuario.setStatus(rs.getString("ST_USUARIO"));
                 lista.add(usuario);
@@ -67,7 +67,7 @@ public class UsuarioDao {
                     usuario.setId(rs.getLong("ID_USUARIO"));
                     usuario.setNome(rs.getString("NM_USUARIO"));
                     usuario.setEmail(rs.getString("EM_USUARIO"));
-                    usuario.setData(rs.getTimestamp("DT_NASCIMENTO").toLocalDateTime());
+                    usuario.setData(rs.getDate("DT_NASCIMENTO").toLocalDate());
                     usuario.setTelefone(rs.getString("TL_USUARIO"));
                     usuario.setStatus(rs.getString("ST_USUARIO"));
 
@@ -98,7 +98,7 @@ public class UsuarioDao {
 
             stmt.setString(1, usuario.getNome());
             stmt.setString(2, usuario.getEmail());
-            stmt.setTimestamp(3, Timestamp.valueOf(usuario.getData()));
+            stmt.setDate(3, java.sql.Date.valueOf(usuario.getData()));
             stmt.setString(4, usuario.getTelefone());
             stmt.setString(5, usuario.getStatus());
 
@@ -132,7 +132,7 @@ public class UsuarioDao {
 
             stmt.setString(1, usuario.getNome());
             stmt.setString(2, usuario.getEmail());
-            stmt.setTimestamp(3, Timestamp.valueOf(usuario.getData()));
+            stmt.setDate(3, java.sql.Date.valueOf(usuario.getData()));
             stmt.setString(4, usuario.getTelefone());
             stmt.setString(5, usuario.getStatus());
             stmt.setLong(6, usuario.getId());
