@@ -1,9 +1,14 @@
 package br.com.fiap.espelhomeu.controller;
 
 import br.com.fiap.espelhomeu.dao.RecomendacaoPenteadoProdutoDao;
+import br.com.fiap.espelhomeu.dto.AtualizacaoRecomendacaoPenteadoProduto;
+import br.com.fiap.espelhomeu.dto.CadastroRecomendacaoPenteadoProduto;
+import br.com.fiap.espelhomeu.dto.DetalhesRecomendacaoPenteadoProduto;
 import br.com.fiap.espelhomeu.model.Produto;
 import br.com.fiap.espelhomeu.model.RecomendacaoPenteado;
 import br.com.fiap.espelhomeu.model.RecomendacaoPenteadoProduto;
+import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -17,57 +22,101 @@ import java.util.List;
 public class RecomendacaoPenteadoProdutoController {
 
     private final RecomendacaoPenteadoProdutoDao dao;
+    private final ModelMapper mapper;
 
-    public RecomendacaoPenteadoProdutoController(RecomendacaoPenteadoProdutoDao dao) {
+    public RecomendacaoPenteadoProdutoController(RecomendacaoPenteadoProdutoDao dao, ModelMapper mapper) {
         this.dao = dao;
+        this.mapper = mapper;
     }
 
     @GetMapping
-    public List<RecomendacaoPenteadoProduto> listar() throws SQLException {
-        return dao.listar();
+    public List<DetalhesRecomendacaoPenteadoProduto> listar() throws SQLException {
+
+        return dao.listar().stream()
+                .map(recomendacao -> {
+                    DetalhesRecomendacaoPenteadoProduto dto = mapper.map(
+                            recomendacao, DetalhesRecomendacaoPenteadoProduto.class
+                    );
+
+                    dto.setProdutoId(recomendacao.getProduto().getId());
+                    dto.setRecomendacaoPenteadoId(recomendacao.getRecomendacaoPenteado().getId());
+
+                    return dto;
+                })
+                .toList();
     }
 
     @GetMapping("/{idProduto}/{idRecomendacaoPenteado}")
-    public ResponseEntity<RecomendacaoPenteadoProduto> buscar(
+    public ResponseEntity<DetalhesRecomendacaoPenteadoProduto> buscar(
             @PathVariable long idProduto,
             @PathVariable long idRecomendacaoPenteado) throws SQLException {
 
-        return ResponseEntity.ok(dao.buscar(idProduto, idRecomendacaoPenteado));
+        RecomendacaoPenteadoProduto recomendacao = dao.buscar(idProduto, idRecomendacaoPenteado);
+
+        DetalhesRecomendacaoPenteadoProduto dto = mapper.map(
+                recomendacao, DetalhesRecomendacaoPenteadoProduto.class
+        );
+
+        dto.setProdutoId(recomendacao.getProduto().getId());
+        dto.setRecomendacaoPenteadoId(recomendacao.getRecomendacaoPenteado().getId());
+
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping
-    public ResponseEntity<RecomendacaoPenteadoProduto> inserir(
-            @RequestBody RecomendacaoPenteadoProduto recomendacao,
+    public ResponseEntity<DetalhesRecomendacaoPenteadoProduto> inserir(
+            @RequestBody @Valid CadastroRecomendacaoPenteadoProduto dto,
             UriComponentsBuilder uriBuilder) throws SQLException {
 
-        dao.inserir(recomendacao);
-
-        URI uri = uriBuilder
-                .path("/recomendacaopenteadoproduto/{idProduto}/{idRecomendacaoPenteado}")
-                .buildAndExpand(
-                        recomendacao.getProduto().getId(),
-                        recomendacao.getRecomendacaoPenteado().getId()
-                )
-                .toUri();
-
-        return ResponseEntity.created(uri).body(recomendacao);
-    }
-
-    @PutMapping("/{idProduto}/{idRecomendacaoPenteado}")
-    public ResponseEntity<RecomendacaoPenteadoProduto> atualizar(
-            @PathVariable long idProduto,
-            @PathVariable long idRecomendacaoPenteado,
-            @RequestBody RecomendacaoPenteadoProduto recomendacao) throws SQLException {
+        RecomendacaoPenteadoProduto recomendacao = mapper.map(
+                dto, RecomendacaoPenteadoProduto.class
+        );
 
         Produto produto = new Produto();
-        produto.setId(idProduto);
+        produto.setId(dto.getProdutoId());
         recomendacao.setProduto(produto);
 
         RecomendacaoPenteado recomendacaoPenteado = new RecomendacaoPenteado();
-        recomendacaoPenteado.setId(idRecomendacaoPenteado);
+        recomendacaoPenteado.setId(dto.getRecomendacaoPenteadoId());
         recomendacao.setRecomendacaoPenteado(recomendacaoPenteado);
 
-        return ResponseEntity.ok(dao.atualizar(recomendacao));
+        dao.inserir(recomendacao);
+
+        DetalhesRecomendacaoPenteadoProduto detalhes = mapper.map(
+                recomendacao, DetalhesRecomendacaoPenteadoProduto.class
+        );
+
+        detalhes.setProdutoId(dto.getProdutoId());
+        detalhes.setRecomendacaoPenteadoId(dto.getRecomendacaoPenteadoId());
+
+        URI uri = uriBuilder
+                .path("/recomendacaopenteadoproduto/{idProduto}/{idRecomendacaoPenteado}")
+                .buildAndExpand(dto.getProdutoId(), dto.getRecomendacaoPenteadoId())
+                .toUri();
+
+        return ResponseEntity.created(uri).body(detalhes);
+    }
+
+    @PutMapping("/{idProduto}/{idRecomendacaoPenteado}")
+    public ResponseEntity<DetalhesRecomendacaoPenteadoProduto> atualizar(
+            @PathVariable long idProduto,
+            @PathVariable long idRecomendacaoPenteado,
+            @RequestBody @Valid AtualizacaoRecomendacaoPenteadoProduto dto) throws SQLException {
+
+        RecomendacaoPenteadoProduto recomendacao = dao.buscar(idProduto, idRecomendacaoPenteado);
+
+        mapper.map(dto, recomendacao);
+
+        dao.atualizar(recomendacao);
+
+        DetalhesRecomendacaoPenteadoProduto detalhes = mapper.map(
+                recomendacao, DetalhesRecomendacaoPenteadoProduto.class
+        );
+
+        detalhes.setProdutoId(recomendacao.getProduto().getId());
+        detalhes.setRecomendacaoPenteadoId(recomendacao.getRecomendacaoPenteado().getId());
+
+        return ResponseEntity.ok(detalhes);
     }
 
     @DeleteMapping("/{idProduto}/{idRecomendacaoPenteado}")
@@ -76,6 +125,7 @@ public class RecomendacaoPenteadoProdutoController {
             @PathVariable long idRecomendacaoPenteado) throws SQLException {
 
         dao.deletar(idProduto, idRecomendacaoPenteado);
+
         return ResponseEntity.noContent().build();
     }
 }
