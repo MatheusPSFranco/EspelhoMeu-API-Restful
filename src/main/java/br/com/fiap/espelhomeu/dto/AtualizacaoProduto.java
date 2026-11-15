@@ -1,9 +1,11 @@
 package br.com.fiap.espelhomeu.dto;
 
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class AtualizacaoProduto {
@@ -20,6 +22,10 @@ public class AtualizacaoProduto {
     @Size(max = 30)
     private String categoriaPrincipal;
 
+    @DecimalMin("0.00")
+    @Digits(integer = 8, fraction = 2)
+    private BigDecimal precoReferencia;
+
     @Pattern(regexp = "^(Custo-beneficio|Intermediário|Caro)$")
     private String faixaPreco;
 
@@ -35,11 +41,12 @@ public class AtualizacaoProduto {
 
     public AtualizacaoProduto() {}
 
-    public AtualizacaoProduto(String categoria, String nome, String marca, String categoriaPrincipal, String faixaPreco, Double avaliacao, String cor, LocalDateTime data) {
+    public AtualizacaoProduto(String categoria, String nome, String marca, String categoriaPrincipal, BigDecimal precoReferencia, String faixaPreco, Double avaliacao, String cor, LocalDateTime data) {
         this.categoria = categoria;
         this.nome = nome;
         this.marca = marca;
         this.categoriaPrincipal = categoriaPrincipal;
+        this.precoReferencia = precoReferencia;
         this.faixaPreco = faixaPreco;
         this.avaliacao = avaliacao;
         this.cor = cor;
@@ -78,6 +85,14 @@ public class AtualizacaoProduto {
 
     public void setCategoriaPrincipal(String categoriaPrincipal) {
         this.categoriaPrincipal = categoriaPrincipal;
+    }
+
+    public BigDecimal getPrecoReferencia() {
+        return precoReferencia;
+    }
+
+    public void setPrecoReferencia(BigDecimal precoReferencia) {
+        this.precoReferencia = precoReferencia;
     }
 
     public String getFaixaPreco() {

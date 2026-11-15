@@ -1,5 +1,6 @@
 package br.com.fiap.espelhomeu.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class Produto {
@@ -9,6 +10,7 @@ public class Produto {
     private String nome;
     private String marca;
     private String categoriaPrincipal;
+    private BigDecimal precoReferencia;
     private String faixaPreco;
     private Double avaliacao;
     private String cor;
@@ -18,12 +20,13 @@ public class Produto {
 
     public Produto() {}
 
-    public Produto(Long id, String categoria, String nome, String marca, String categoriaPrincipal, String faixaPreco, Double avaliacao, String cor, LocalDateTime data) {
+    public Produto(Long id, String categoria, String nome, String marca, String categoriaPrincipal, BigDecimal precoReferencia, String faixaPreco, Double avaliacao, String cor, LocalDateTime data) {
         this.id = id;
         this.categoria = categoria;
         this.nome = nome;
         this.marca = marca;
         this.categoriaPrincipal = categoriaPrincipal;
+        this.precoReferencia = precoReferencia;
         this.faixaPreco = faixaPreco;
         this.avaliacao = avaliacao;
         this.cor = cor;
@@ -72,6 +75,14 @@ public class Produto {
         this.categoriaPrincipal = categoriaPrincipal;
     }
 
+    public BigDecimal getPrecoReferencia() {
+        return precoReferencia;
+    }
+
+    public void setPrecoReferencia(BigDecimal precoReferencia) {
+        this.precoReferencia = precoReferencia;
+    }
+
     public String getFaixaPreco() {
         return faixaPreco;
     }
@@ -107,7 +118,7 @@ public class Produto {
     //toString
     @Override
     public String toString(){
-        return "Id: "+ id +", Nome: "+nome+", Marca: "+marca+", Categoria Principal: "+categoriaPrincipal+", Faixa de Preco: "+faixaPreco+
+        return "Id: "+ id +", Nome: "+nome+", Marca: "+marca+", Categoria Principal: "+categoriaPrincipal+", Preco de Referencia: "+precoReferencia+", Faixa de Preco: "+faixaPreco+
                 ", Avaliacao: "+avaliacao+", Cor: "+cor+", Data: "+data;
     }
 }

@@ -5,6 +5,7 @@ import br.com.fiap.espelhomeu.model.Produto;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class ProdutoDao {
                 produto.setNome(rs.getString("NM_PRODUTO"));
                 produto.setMarca(rs.getString("MC_PRODUTO"));
                 produto.setCategoriaPrincipal(rs.getString("CT_PRINCIPAL"));
+                produto.setPrecoReferencia(rs.getBigDecimal("PR_REFERENCIA"));
                 produto.setFaixaPreco(rs.getString("FX_PRECO"));
 
                 double avaliacao = rs.getDouble("AV_PRODUTO");
@@ -76,6 +78,7 @@ public class ProdutoDao {
                     produto.setNome(rs.getString("NM_PRODUTO"));
                     produto.setMarca(rs.getString("MC_PRODUTO"));
                     produto.setCategoriaPrincipal(rs.getString("CT_PRINCIPAL"));
+                    produto.setPrecoReferencia(rs.getBigDecimal("PR_REFERENCIA"));
                     produto.setFaixaPreco(rs.getString("FX_PRECO"));
 
                     double avaliacao = rs.getDouble("AV_PRODUTO");
@@ -103,8 +106,8 @@ public class ProdutoDao {
 
     public Produto inserir(Produto produto) {
         String sql = "INSERT INTO T_EM_PRODUTO " +
-                "(ID_PRODUTO, CT_PRODUTO, NM_PRODUTO, MC_PRODUTO, CT_PRINCIPAL, FX_PRECO, AV_PRODUTO, CR_PRODUTO, DT_PRODUTO) " +
-                "VALUES (SQ_PRODUTO.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "(ID_PRODUTO, CT_PRODUTO, NM_PRODUTO, MC_PRODUTO, CT_PRINCIPAL, PR_REFERENCIA, FX_PRECO, AV_PRODUTO, CR_PRODUTO, DT_PRODUTO) " +
+                "VALUES (SQ_PRODUTO.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conexao = dataSource.getConnection();
              PreparedStatement stmt = conexao.prepareStatement(sql, new String[]{"ID_PRODUTO"})) {
@@ -113,20 +116,27 @@ public class ProdutoDao {
             stmt.setString(2, produto.getNome());
             stmt.setString(3, produto.getMarca());
             stmt.setString(4, produto.getCategoriaPrincipal());
-            stmt.setString(5, produto.getFaixaPreco());
 
-            if (produto.getAvaliacao() != null) {
-                stmt.setDouble(6, produto.getAvaliacao());
+            if (produto.getPrecoReferencia() != null) {
+                stmt.setBigDecimal(5, produto.getPrecoReferencia());
             } else {
-                stmt.setNull(6, Types.NUMERIC);
+                stmt.setNull(5, Types.NUMERIC);
             }
 
-            stmt.setString(7, produto.getCor());
+            stmt.setString(6, produto.getFaixaPreco());
+
+            if (produto.getAvaliacao() != null) {
+                stmt.setDouble(7, produto.getAvaliacao());
+            } else {
+                stmt.setNull(7, Types.NUMERIC);
+            }
+
+            stmt.setString(8, produto.getCor());
 
             if (produto.getData() != null) {
-                stmt.setTimestamp(8, Timestamp.valueOf(produto.getData()));
+                stmt.setTimestamp(9, Timestamp.valueOf(produto.getData()));
             } else {
-                stmt.setNull(8, Types.TIMESTAMP);
+                stmt.setNull(9, Types.TIMESTAMP);
             }
 
             stmt.executeUpdate();
@@ -147,7 +157,7 @@ public class ProdutoDao {
     public Produto atualizar(Produto produto) {
         String sql = "UPDATE T_EM_PRODUTO SET " +
                 "CT_PRODUTO = ?, NM_PRODUTO = ?, MC_PRODUTO = ?, CT_PRINCIPAL = ?, " +
-                "FX_PRECO = ?, AV_PRODUTO = ?, CR_PRODUTO = ?, DT_PRODUTO = ? " +
+                "PR_REFERENCIA = ?, FX_PRECO = ?, AV_PRODUTO = ?, CR_PRODUTO = ?, DT_PRODUTO = ? " +
                 "WHERE ID_PRODUTO = ?";
 
         try (Connection conexao = dataSource.getConnection();
@@ -157,23 +167,30 @@ public class ProdutoDao {
             stmt.setString(2, produto.getNome());
             stmt.setString(3, produto.getMarca());
             stmt.setString(4, produto.getCategoriaPrincipal());
-            stmt.setString(5, produto.getFaixaPreco());
+
+            if (produto.getPrecoReferencia() != null) {
+                stmt.setBigDecimal(5, produto.getPrecoReferencia());
+            } else {
+                stmt.setNull(5, Types.NUMERIC);
+            }
+
+            stmt.setString(6, produto.getFaixaPreco());
 
             if (produto.getAvaliacao() != null) {
-                stmt.setDouble(6, produto.getAvaliacao());
+                stmt.setDouble(7, produto.getAvaliacao());
             } else {
-                stmt.setNull(6, Types.NUMERIC);
+                stmt.setNull(7, Types.NUMERIC);
             }
 
-            stmt.setString(7, produto.getCor());
+            stmt.setString(8, produto.getCor());
 
             if (produto.getData() != null) {
-                stmt.setTimestamp(8, Timestamp.valueOf(produto.getData()));
+                stmt.setTimestamp(9, Timestamp.valueOf(produto.getData()));
             } else {
-                stmt.setNull(8, Types.TIMESTAMP);
+                stmt.setNull(9, Types.TIMESTAMP);
             }
 
-            stmt.setLong(9, produto.getId());
+            stmt.setLong(10, produto.getId());
 
             int linhasAfetadas = stmt.executeUpdate();
 

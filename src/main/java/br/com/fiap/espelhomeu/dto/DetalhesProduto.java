@@ -1,5 +1,6 @@
 package br.com.fiap.espelhomeu.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class DetalhesProduto {
@@ -9,6 +10,7 @@ public class DetalhesProduto {
     private String nome;
     private String marca;
     private String categoriaPrincipal;
+    private BigDecimal precoReferencia;
     private String faixaPreco;
     private Double avaliacao;
     private String cor;
@@ -18,12 +20,13 @@ public class DetalhesProduto {
 
     public DetalhesProduto() {}
 
-    public DetalhesProduto(Long id, String categoria, String nome, String marca, String categoriaPrincipal, String faixaPreco, Double avaliacao, String cor, LocalDateTime data) {
+    public DetalhesProduto(Long id, String categoria, String nome, String marca, String categoriaPrincipal, BigDecimal precoReferencia, String faixaPreco, Double avaliacao, String cor, LocalDateTime data) {
         this.id = id;
         this.categoria = categoria;
         this.nome = nome;
         this.marca = marca;
         this.categoriaPrincipal = categoriaPrincipal;
+        this.precoReferencia = precoReferencia;
         this.faixaPreco = faixaPreco;
         this.avaliacao = avaliacao;
         this.cor = cor;
@@ -70,6 +73,14 @@ public class DetalhesProduto {
 
     public void setCategoriaPrincipal(String categoriaPrincipal) {
         this.categoriaPrincipal = categoriaPrincipal;
+    }
+
+    public BigDecimal getPrecoReferencia() {
+        return precoReferencia;
+    }
+
+    public void setPrecoReferencia(BigDecimal precoReferencia) {
+        this.precoReferencia = precoReferencia;
     }
 
     public String getFaixaPreco() {

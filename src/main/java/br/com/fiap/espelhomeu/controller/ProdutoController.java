@@ -7,10 +7,13 @@ import br.com.fiap.espelhomeu.dto.DetalhesProduto;
 import br.com.fiap.espelhomeu.model.Produto;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.sql.SQLException;
 import java.util.List;
@@ -48,6 +51,8 @@ public class ProdutoController {
 
         Produto produto = mapper.map(dto, Produto.class);
 
+        definirFaixaPreco(produto);
+
         dao.inserir(produto);
 
         DetalhesProduto detalhes = mapper.map(produto, DetalhesProduto.class);
@@ -69,6 +74,8 @@ public class ProdutoController {
 
         mapper.map(dto, produto);
 
+        definirFaixaPreco(produto);
+
         dao.atualizar(produto);
 
         return ResponseEntity.ok(mapper.map(produto, DetalhesProduto.class));
@@ -78,5 +85,25 @@ public class ProdutoController {
     public ResponseEntity<Void> deletar(@PathVariable long id) throws SQLException {
         dao.deletar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    private void definirFaixaPreco(Produto produto) {
+
+        BigDecimal preco = produto.getPrecoReferencia();
+
+        if (preco == null) {
+            produto.setFaixaPreco(null);
+            return;
+        }
+
+        if (preco.compareTo(new BigDecimal("50.00")) < 0) {
+            produto.setFaixaPreco("Custo-beneficio");
+
+        } else if (preco.compareTo(new BigDecimal("100.00")) < 0) {
+            produto.setFaixaPreco("Intermediário");
+
+        } else {
+            produto.setFaixaPreco("Caro");
+        }
     }
 }
