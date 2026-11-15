@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class RecomendacaoMaquiagem {
 
-    private Long Id;
+    private Long id;
     private ConsultoriaMaquiagem consultoriaMaquiagem;
     private Maquiagem maquiagem;
     private String justificativa;
@@ -15,7 +15,7 @@ public class RecomendacaoMaquiagem {
     public RecomendacaoMaquiagem() {}
 
     public RecomendacaoMaquiagem(Long id, ConsultoriaMaquiagem consultoriaMaquiagem, Maquiagem maquiagem, String justificativa, LocalDateTime data) {
-        Id = id;
+        this.id = id;
         this.consultoriaMaquiagem = consultoriaMaquiagem;
         this.maquiagem = maquiagem;
         this.justificativa = justificativa;
@@ -25,11 +25,11 @@ public class RecomendacaoMaquiagem {
     //Getters and Setters
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public ConsultoriaMaquiagem getConsultoriaMaquiagem() {
@@ -62,5 +62,11 @@ public class RecomendacaoMaquiagem {
 
     public void setData(LocalDateTime data) {
         this.data = data;
+    }
+
+    //toString
+    @Override
+    public String toString(){
+        return "Id: "+ id +", Consultoria Maquiagem: "+consultoriaMaquiagem.getId()+", Maquiagem: "+maquiagem.getId()+", Justificativa: "+justificativa+", Data: "+data;
     }
 }

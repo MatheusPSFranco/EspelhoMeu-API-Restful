@@ -103,4 +103,12 @@ public class Avaliacao {
     public void setData(LocalDateTime data) {
         this.data = data;
     }
+
+    //toString
+    @Override
+    public String toString(){
+        return "Id: "+ id +", Usuario: "+ usuario.getId() +", Recomendacao Cor: " +recomendacaoCor.getId() + ", Recomendacao Corte: "+ recomendacaoCorte.getId()+
+                ", Recomendacao Penteado: " + recomendacaoPenteado.getId()+ ", Recomendacao Maquiagem: " + recomendacaoMaquiagem.getId()+ ", Nota: "+ nota+
+                ", Mensagem: "+mensagem+", Data: "+ data;
+    }
 }

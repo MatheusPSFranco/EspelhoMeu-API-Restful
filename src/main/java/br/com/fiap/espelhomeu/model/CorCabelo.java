@@ -51,4 +51,10 @@ public class CorCabelo {
     public void setInfotmacaoManutencao(String infotmacaoManutencao) {
         this.infotmacaoManutencao = infotmacaoManutencao;
     }
+
+    //toString
+    @Override
+    public String toString(){
+        return "Id: "+ id +", Nome da Tonalidade: "+nomeTonalidade+", Informacao Manutencao: "+infotmacaoManutencao;
+    }
 }

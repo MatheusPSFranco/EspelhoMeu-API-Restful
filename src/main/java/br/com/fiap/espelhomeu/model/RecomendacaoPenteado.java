@@ -63,4 +63,10 @@ public class RecomendacaoPenteado {
     public void setData(LocalDateTime data) {
         this.data = data;
     }
+
+    //toString
+    @Override
+    public String toString(){
+        return "Id: "+ id +", Consultoria Capilar: "+consultoriaCapilar.getId()+", Penteado: "+penteado.getId()+", Justificativa: "+justificativa+", Data: "+data;
+    }
 }

@@ -131,4 +131,12 @@ public class PerfilCabelo {
     public void setData(LocalDateTime data) {
         this.data = data;
     }
+
+    //toString
+    @Override
+    public String toString(){
+        return "Id: "+ id +", Usuario: "+usuario.getId()+", Textura Cabelo: "+texturaCabelo+", Formato do Rosto: "+formatoRosto+", Comprimento Atual: "+ comprimentoAtual+
+                ", Comprimento Desejado: "+comprimentoDesejado+", Cor Atual: "+corAtual+", Estilo Preferencia: "+estiloPreferencia+", Tempo Disponivel: "+tempoDisponivel+
+                ", Interesse Coloracao: "+interesseColoracao+", Preferencia Mudanca: "+preferenciaMudanca+", Data: "+data;
+    }
 }

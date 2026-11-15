@@ -83,4 +83,10 @@ public class Simulacao {
     public void setData(LocalDateTime data) {
         this.data = data;
     }
+
+    //toString
+    @Override
+    public String toString(){
+        return "Id: "+ id +", Usuario: "+usuario.getId()+", Corte: "+corte.getId()+", Cor: "+corCabelo.getId()+", Penteado: "+penteado.getId()+", Data: "+data;
+    }
 }

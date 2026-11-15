@@ -103,4 +103,11 @@ public class Produto {
     public void setData(LocalDateTime data) {
         this.data = data;
     }
+
+    //toString
+    @Override
+    public String toString(){
+        return "Id: "+ id +", Nome: "+nome+", Marca: "+marca+", Categoria Principal: "+categoriaPrincipal+", Faixa de Preco: "+faixaPreco+
+                ", Avaliacao: "+avaliacao+", Cor: "+cor+", Data: "+data;
+    }
 }

@@ -61,4 +61,10 @@ public class Corte {
     public void setInformacaoManutencao(String informacaoManutencao) {
         this.informacaoManutencao = informacaoManutencao;
     }
+
+    //toString
+    @Override
+    public String toString(){
+        return "Id: "+ id +", Nome: "+nome+", Descricao: "+descricao+", Informacao Manutencao: "+informacaoManutencao;
+    }
 }

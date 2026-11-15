@@ -4,7 +4,7 @@ public class RecomendacaoCorteProduto {
 
     private Produto produto;
     private RecomendacaoCorte recomendacaoCorte;
-    private String Justificativa;
+    private String justificativa;
 
     //Constructor
 
@@ -13,7 +13,7 @@ public class RecomendacaoCorteProduto {
     public RecomendacaoCorteProduto(Produto produto, RecomendacaoCorte recomendacaoCorte, String justificativa) {
         this.produto = produto;
         this.recomendacaoCorte = recomendacaoCorte;
-        Justificativa = justificativa;
+        this.justificativa = justificativa;
     }
 
     //Getters and Setters
@@ -35,10 +35,16 @@ public class RecomendacaoCorteProduto {
     }
 
     public String getJustificativa() {
-        return Justificativa;
+        return justificativa;
     }
 
     public void setJustificativa(String justificativa) {
-        Justificativa = justificativa;
+        this.justificativa = justificativa;
+    }
+
+    //toString
+    @Override
+    public String toString(){
+        return "Produto: "+produto.getId()+", Recomendacao Corte: "+recomendacaoCorte.getId()+", Justificativa: "+justificativa;
     }
 }

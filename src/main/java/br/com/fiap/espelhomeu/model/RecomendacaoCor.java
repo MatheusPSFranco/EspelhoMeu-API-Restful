@@ -63,4 +63,10 @@ public class RecomendacaoCor {
     public void setData(LocalDateTime data) {
         this.data = data;
     }
+
+    //toString
+    @Override
+    public String toString(){
+        return "Id: "+ id +", Consultoria Capilar: "+consultoriaCapilar.getId()+", Cor de Cabelo: "+corCabelo.getId()+", Justificativa: "+justificativa+", Data: "+data;
+    }
 }

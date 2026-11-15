@@ -71,4 +71,10 @@ public class Usuario {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    //toString
+    @Override
+    public String toString(){
+        return "Id: "+ id +", Nome: "+ nome+", Email: "+ email+", Data: "+ data+", Telefone: "+ telefone+", Status: "+ status;
+    }
 }

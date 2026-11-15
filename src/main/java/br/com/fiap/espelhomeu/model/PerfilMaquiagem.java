@@ -153,4 +153,13 @@ public class PerfilMaquiagem {
     public void setData(LocalDateTime data) {
         this.data = data;
     }
+
+    //toString
+    @Override
+    public String toString(){
+        return "Id: "+ id +", Usuario: "+usuario.getId()+", Tipo pele: "+tipopele+", Tom de Pele: "+tomPele+", Subtom de Pele: "+ subtomPele+
+                ", Necessidade: "+necessidadePele+", Produto Utilizado: "+produtoUtilizado+", Tonalidade Utilizada: "+tonalidadeUtilizada+", Dificuldade Base: "+dificuldadeBase+
+                ", Dificuldade Corretivo: "+dificuldadeCorretivo+", Cobertura Desejada: "+coberturaDesejada+", Acabamento Preferido: "+ acabamentoPreferido+
+                ", Faixa de Preco: "+faixaPreco+", Data: "+data;
+    }
 }

@@ -43,4 +43,10 @@ public class ConsultoriaMaquiagem {
     public void setPerfilMaquiagem(PerfilMaquiagem perfilMaquiagem) {
         this.perfilMaquiagem = perfilMaquiagem;
     }
+
+    //toString
+    @Override
+    public String toString(){
+        return "Id: "+ id + ", Perfil Maquiagem: "+perfilMaquiagem.getId()+", Data: "+data;
+    }
 }

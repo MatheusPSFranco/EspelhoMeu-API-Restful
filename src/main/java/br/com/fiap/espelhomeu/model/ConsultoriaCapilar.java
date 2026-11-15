@@ -43,4 +43,10 @@ public class ConsultoriaCapilar {
     public void setData(LocalDateTime data) {
         this.data = data;
     }
+
+    //toString
+    @Override
+    public String toString(){
+        return "Id: "+ id + ", Perfil Cabelo: "+perfilCabelo.getId()+", Data: "+data;
+    }
 }

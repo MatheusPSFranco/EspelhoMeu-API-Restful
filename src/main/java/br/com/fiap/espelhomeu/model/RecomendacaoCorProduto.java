@@ -41,4 +41,10 @@ public class RecomendacaoCorProduto {
     public void setJustificativa(String justificativa) {
         this.justificativa = justificativa;
     }
+
+    //toString
+    @Override
+    public String toString(){
+        return "Recomendacao Cor: "+recomendacaoCor.getId()+", Produto: "+produto.getId()+", Justificativa: "+justificativa;
+    }
 }

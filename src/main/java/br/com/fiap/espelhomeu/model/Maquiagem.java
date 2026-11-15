@@ -112,4 +112,11 @@ public class Maquiagem {
     public void setAvaliacao(Double avaliacao) {
         this.avaliacao = avaliacao;
     }
+
+    //toString
+    @Override
+    public String toString(){
+        return "Id: "+ id +", Tipo: "+tipo+", Cor: "+cor+", Faixa de Preco: "+faixaPreco+", Marca: "+marca+", Linha do Produto: "+linhaProduto+
+                ", Codigo da Tonalidade: "+codigoTonalidade+", Tipo de Cobertura: "+tipoCobertura+", Acabamento: "+acabamento+", Avaliacao: "+avaliacao;
+    }
 }
