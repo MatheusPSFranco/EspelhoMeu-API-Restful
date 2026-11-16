@@ -36,9 +36,6 @@ DROP SEQUENCE SQ_RECOMENDACAO_COR;
 DROP SEQUENCE SQ_RECOMENDACAO_PENTEADO;
 DROP SEQUENCE SQ_PRODUTO;
 DROP SEQUENCE SQ_MAQUIAGEM;
-DROP SEQUENCE SQ_REC_COT_PRO;
-DROP SEQUENCE SQ_REC_COR_PRO;
-DROP SEQUENCE SQ_REC_PEN_PRO;
 DROP SEQUENCE SQ_RECOMENDACAO_MAQUIAGEM;
 DROP SEQUENCE SQ_AVALIACAO;
 DROP SEQUENCE SQ_FAVORITOS;
@@ -438,13 +435,13 @@ CREATE SEQUENCE SQ_RECOMENDACAO_PENTEADO
 CREATE TABLE T_EM_PRODUTO 
     ( 
      ID_PRODUTO NUMBER (10)  NOT NULL , 
-     CT_PRODUTO VARCHAR2 (20 CHAR) ,
-     NM_PRODUTO VARCHAR2 (20 CHAR) , 
-     MC_PRODUTO VARCHAR2 (30 CHAR) , 
-     CT_PRINCIPAL VARCHAR2 (30 CHAR) ,
-     PR_REFERENCIA NUMBER (10,2) ,
-     FX_PRECO   VARCHAR2 (15 CHAR) , 
-     AV_PRODUTO NUMBER (3,2) , 
+     CT_PRODUTO VARCHAR2 (20 CHAR) NOT NULL,
+     NM_PRODUTO VARCHAR2 (20 CHAR) NOT NULL, 
+     MC_PRODUTO VARCHAR2 (30 CHAR) NOT NULL, 
+     CT_PRINCIPAL VARCHAR2 (30 CHAR) NOT NULL,
+     PR_REFERENCIA NUMBER (10,2) NOT NULL,
+     FX_PRECO   VARCHAR2 (15 CHAR) NOT NULL, 
+     AV_PRODUTO NUMBER (3,2) NOT NULL, 
      CR_PRODUTO VARCHAR2 (30 CHAR) ,
      DT_PRODUTO DATE
     ) 
@@ -458,6 +455,11 @@ ALTER TABLE T_EM_PRODUTO
     CHECK (FX_PRECO IN ('Custo-beneficio', 'Intermediário', 'Caro'))
 ;
 
+ALTER TABLE T_EM_PRODUTO 
+    ADD CONSTRAINT TIPO_PRODUTO_CK 
+    CHECK (CT_PRODUTO IN ('Shampoo', 'Condicionador', 'Máscara Capilar', 'Finalizador', 'Modelador', 'Tintura'))
+;
+
 CREATE SEQUENCE SQ_PRODUTO
     START WITH 6
     INCREMENT BY 1
@@ -469,16 +471,16 @@ CREATE SEQUENCE SQ_PRODUTO
 CREATE TABLE T_EM_MAQUIAGEM 
     ( 
      ID_MAQUIAGEM  NUMBER (10)  NOT NULL , 
-     TP_MAQUIAGEM  VARCHAR2 (20 CHAR) , 
-     CR_MAQUIAGEM  VARCHAR2 (30 CHAR) ,
-     PR_REFERENCIA   NUMBER (10,2) ,
-     FX_PRECO      VARCHAR2 (15 CHAR) , 
-     MC_MAQUIAGEM  VARCHAR2 (40 CHAR) , 
-     LN_MAQUIAGEM  VARCHAR2 (50 CHAR) , 
-     CD_TONALIDADE VARCHAR2 (20 CHAR) , 
-     TP_COBERTURA  VARCHAR2 (50 CHAR) , 
-     AC_MAQUIAGEM  VARCHAR2 (50 CHAR) , 
-     AV_MAQUIAGEM    NUMBER (3,2) 
+     TP_MAQUIAGEM  VARCHAR2 (20 CHAR) NOT NULL, 
+     CR_MAQUIAGEM  VARCHAR2 (30 CHAR) NOT NULL,
+     PR_REFERENCIA   NUMBER (10,2) NOT NULL,
+     FX_PRECO      VARCHAR2 (15 CHAR) NOT NULL, 
+     MC_MAQUIAGEM  VARCHAR2 (40 CHAR) NOT NULL, 
+     LN_MAQUIAGEM  VARCHAR2 (50 CHAR) NOT NULL, 
+     CD_TONALIDADE VARCHAR2 (20 CHAR) NOT NULL, 
+     TP_COBERTURA  VARCHAR2 (50 CHAR) NOT NULL, 
+     AC_MAQUIAGEM  VARCHAR2 (50 CHAR) NOT NULL, 
+     AV_MAQUIAGEM    NUMBER (3,2) NOT NULL
     ) 
 ;
 
@@ -488,6 +490,11 @@ ALTER TABLE T_EM_MAQUIAGEM
 ALTER TABLE T_EM_MAQUIAGEM
     ADD CONSTRAINT MAQUIAGEM_CK
     CHECK (FX_PRECO IN ('Custo-beneficio', 'Intermediário', 'Caro')) ;
+    
+ALTER TABLE T_EM_MAQUIAGEM 
+    ADD CONSTRAINT CATEGORIA_MAQUIAGEM_CK 
+    CHECK (TP_MAQUIAGEM IN ('Base', 'Corretivo', 'Pó Compacto', 'Pó Solto'))
+;
 
 CREATE SEQUENCE SQ_MAQUIAGEM
     START WITH 6
@@ -1018,16 +1025,16 @@ INSERT INTO T_EM_RECOMENDACAO_PENTEADO VALUES (5, 5, 5, 'O semipreso mantém par
 
 INSERT INTO T_EM_PRODUTO VALUES (1, 'Shampoo', 'Shampoo Nutritivo', 'Lola', 'Hidratação', 25.90, 'Custo-beneficio', 4.50, 'Transparente', TO_DATE('2026-10-20','YYYY-MM-DD'));
 INSERT INTO T_EM_PRODUTO VALUES (2, 'Condicionador', 'Condicionador Suave', 'Elseve', 'Desembaraço', 65.00, 'Intermediário', 4.20, 'Branco', TO_DATE('2026-10-20','YYYY-MM-DD'));
-INSERT INTO T_EM_PRODUTO VALUES (3, 'Mascara capilar', 'Mascara Reparadora', 'Kérastase', 'Reconstrução', 145.00, 'Caro', 3.50, 'Creme', TO_DATE('2026-10-21','YYYY-MM-DD'));
-INSERT INTO T_EM_PRODUTO VALUES (4, 'Leave-in', 'Leave-in Definidor', 'Salon Line', 'Definição', 30.00, 'Custo-beneficio', 4.80, 'Sem cor', TO_DATE('2026-10-21','YYYY-MM-DD'));
+INSERT INTO T_EM_PRODUTO VALUES (3, 'Máscara Capilar', 'Mascara Reparadora', 'Kérastase', 'Reconstrução', 145.00, 'Caro', 3.50, 'Creme', TO_DATE('2026-10-21','YYYY-MM-DD'));
+INSERT INTO T_EM_PRODUTO VALUES (4, 'Finalizador', 'Leave-in Definidor', 'Salon Line', 'Definição', 30.00, 'Custo-beneficio', 4.80, 'Sem cor', TO_DATE('2026-10-21','YYYY-MM-DD'));
 INSERT INTO T_EM_PRODUTO VALUES (5, 'Modelador', 'Modelador de Cachos', 'Wella', 'Modelagem', 85.00, 'Caro', 4.00, 'Natural', TO_DATE('2026-10-22','YYYY-MM-DD'));
 
 -- 13. PRODUTOS DE MAQUIAGEM
 
 INSERT INTO T_EM_MAQUIAGEM VALUES (1, 'Base', 'Bege claro', 39.90, 'Custo-beneficio', 'Maybelline', 'Fit Me', 'Claro', 'Média', 'Acabamento natural', 4.50);
 INSERT INTO T_EM_MAQUIAGEM VALUES (2, 'Corretivo', 'Médio neutro', 55.00, 'Intermediário', 'Tracta', 'Corretivo líquido', 'Médio', 'Alta', 'Boa cobertura', 4.30);
-INSERT INTO T_EM_MAQUIAGEM VALUES (3, 'Pó compacto', 'Bege médio', 29.90, 'Custo-beneficio', 'Vult', 'Pó Compacto', 'Médio', 'Leve', 'Matte', 3.80);
-INSERT INTO T_EM_MAQUIAGEM VALUES (4, 'Pó solto', 'Translúcido', 75.00, 'Intermediário', 'Niina Secrets', 'Pó Solto', 'Translúcido', 'Leve', 'Natural', 4.00);
+INSERT INTO T_EM_MAQUIAGEM VALUES (3, 'Pó Compacto', 'Bege médio', 29.90, 'Custo-beneficio', 'Vult', 'Pó Compacto', 'Médio', 'Leve', 'Matte', 3.80);
+INSERT INTO T_EM_MAQUIAGEM VALUES (4, 'Pó Solto', 'Translúcido', 75.00, 'Intermediário', 'Niina Secrets', 'Pó Solto', 'Translúcido', 'Leve', 'Natural', 4.00);
 INSERT INTO T_EM_MAQUIAGEM VALUES (5, 'Base', 'Terracota', 129.90, 'Caro', 'NARS', 'Natural Radiant', 'Médio escuro', 'Alta', 'Glow', 3.50);
 
 -- 14. PRODUTOS ASSOCIADOS ÀS RECOMENDAÇÕES DE CORTE

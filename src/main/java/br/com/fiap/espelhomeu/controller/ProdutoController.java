@@ -87,20 +87,74 @@ public class ProdutoController {
     private void definirFaixaPreco(Produto produto) {
 
         BigDecimal preco = produto.getPrecoReferencia();
+        String categoria = produto.getCategoria();
 
-        if (preco == null) {
+        if (preco == null || categoria == null) {
             produto.setFaixaPreco(null);
             return;
         }
 
-        if (preco.compareTo(new BigDecimal("50.00")) < 0) {
-            produto.setFaixaPreco("Custo-beneficio");
+        switch (categoria) {
 
-        } else if (preco.compareTo(new BigDecimal("100.00")) < 0) {
-            produto.setFaixaPreco("Intermediário");
+            case "Shampoo":
+                if (preco.compareTo(new BigDecimal("40.00")) < 0) {
+                    produto.setFaixaPreco("Custo-beneficio");
+                } else if (preco.compareTo(new BigDecimal("120.00")) < 0) {
+                    produto.setFaixaPreco("Intermediário");
+                } else {
+                    produto.setFaixaPreco("Caro");
+                }
+                break;
 
-        } else {
-            produto.setFaixaPreco("Caro");
+            case "Condicionador":
+                if (preco.compareTo(new BigDecimal("45.00")) < 0) {
+                    produto.setFaixaPreco("Custo-beneficio");
+                } else if (preco.compareTo(new BigDecimal("130.00")) < 0) {
+                    produto.setFaixaPreco("Intermediário");
+                } else {
+                    produto.setFaixaPreco("Caro");
+                }
+                break;
+
+            case "Máscara Capilar":
+                if (preco.compareTo(new BigDecimal("55.00")) < 0) {
+                    produto.setFaixaPreco("Custo-beneficio");
+                } else if (preco.compareTo(new BigDecimal("160.00")) < 0) {
+                    produto.setFaixaPreco("Intermediário");
+                } else {
+                    produto.setFaixaPreco("Caro");
+                }
+                break;
+
+            case "Finalizador":
+                if (preco.compareTo(new BigDecimal("45.00")) < 0) {
+                    produto.setFaixaPreco("Custo-beneficio");
+                } else if (preco.compareTo(new BigDecimal("120.00")) < 0) {
+                    produto.setFaixaPreco("Intermediário");
+                } else {
+                    produto.setFaixaPreco("Caro");
+                }
+                break;
+
+            case "Modelador":
+                if (preco.compareTo(new BigDecimal("40.00")) < 0) {
+                    produto.setFaixaPreco("Custo-beneficio");
+                } else if (preco.compareTo(new BigDecimal("90.00")) < 0) {
+                    produto.setFaixaPreco("Intermediário");
+                } else {
+                    produto.setFaixaPreco("Caro");
+                }
+                break;
+
+            case "Tintura":
+                if (preco.compareTo(new BigDecimal("45.00")) < 0) {
+                    produto.setFaixaPreco("Custo-beneficio");
+                } else if (preco.compareTo(new BigDecimal("90.00")) < 0) {
+                    produto.setFaixaPreco("Intermediário");
+                } else {
+                    produto.setFaixaPreco("Caro");
+                }
+                break;
         }
     }
 }

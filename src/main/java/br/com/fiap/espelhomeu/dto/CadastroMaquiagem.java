@@ -1,35 +1,45 @@
 package br.com.fiap.espelhomeu.dto;
 
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
+
+import java.math.BigDecimal;
 
 public class CadastroMaquiagem {
 
-    @Size(max = 20)
+    @NotBlank
+    @Pattern(regexp = "^(Base|Corretivo|Pó Compacto|Pó Solto)$")
     private String tipo;
 
+    @NotBlank
     @Size(max = 30)
     private String cor;
 
-    @Pattern(regexp = "^(Custo-beneficio|Intermediário|Caro)$")
-    private String faixaPreco;
+    @NotNull
+    @DecimalMin("0.00")
+    @Digits(integer = 8, fraction = 2)
+    private BigDecimal precoReferencia;
 
+    @NotBlank
     @Size(max = 40)
     private String marca;
 
+    @NotBlank
     @Size(max = 50)
     private String linhaProduto;
 
+    @NotBlank
     @Size(max = 20)
     private String codigoTonalidade;
 
+    @NotBlank
     @Size(max = 50)
     private String tipoCobertura;
 
+    @NotBlank
     @Size(max = 50)
     private String acabamento;
 
+    @NotNull
     @Digits(integer = 1, fraction = 2)
     private Double avaliacao;
 
@@ -37,10 +47,10 @@ public class CadastroMaquiagem {
 
     public CadastroMaquiagem() {}
 
-    public CadastroMaquiagem(String tipo, String cor, String faixaPreco, String marca, String linhaProduto, String codigoTonalidade, String tipoCobertura, String acabamento, Double avaliacao) {
+    public CadastroMaquiagem(String tipo, String cor, BigDecimal precoReferencia, String marca, String linhaProduto, String codigoTonalidade, String tipoCobertura, String acabamento, Double avaliacao) {
         this.tipo = tipo;
         this.cor = cor;
-        this.faixaPreco = faixaPreco;
+        this.precoReferencia = precoReferencia;
         this.marca = marca;
         this.linhaProduto = linhaProduto;
         this.codigoTonalidade = codigoTonalidade;
@@ -67,12 +77,12 @@ public class CadastroMaquiagem {
         this.cor = cor;
     }
 
-    public String getFaixaPreco() {
-        return faixaPreco;
+    public BigDecimal getPrecoReferencia() {
+        return precoReferencia;
     }
 
-    public void setFaixaPreco(String faixaPreco) {
-        this.faixaPreco = faixaPreco;
+    public void setPrecoReferencia(BigDecimal precoReferencia) {
+        this.precoReferencia = precoReferencia;
     }
 
     public String getMarca() {

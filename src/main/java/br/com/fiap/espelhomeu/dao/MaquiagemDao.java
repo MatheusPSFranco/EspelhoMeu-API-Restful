@@ -34,6 +34,7 @@ public class MaquiagemDao {
                 maquiagem.setId(rs.getLong("ID_MAQUIAGEM"));
                 maquiagem.setTipo(rs.getString("TP_MAQUIAGEM"));
                 maquiagem.setCor(rs.getString("CR_MAQUIAGEM"));
+                maquiagem.setPrecoReferencia(rs.getBigDecimal("PR_REFERENCIA"));
                 maquiagem.setFaixaPreco(rs.getString("FX_PRECO"));
                 maquiagem.setMarca(rs.getString("MC_MAQUIAGEM"));
                 maquiagem.setLinhaProduto(rs.getString("LN_MAQUIAGEM"));
@@ -71,6 +72,7 @@ public class MaquiagemDao {
                     maquiagem.setId(rs.getLong("ID_MAQUIAGEM"));
                     maquiagem.setTipo(rs.getString("TP_MAQUIAGEM"));
                     maquiagem.setCor(rs.getString("CR_MAQUIAGEM"));
+                    maquiagem.setPrecoReferencia(rs.getBigDecimal("PR_REFERENCIA"));
                     maquiagem.setFaixaPreco(rs.getString("FX_PRECO"));
                     maquiagem.setMarca(rs.getString("MC_MAQUIAGEM"));
                     maquiagem.setLinhaProduto(rs.getString("LN_MAQUIAGEM"));
@@ -96,26 +98,27 @@ public class MaquiagemDao {
 
     public Maquiagem inserir(Maquiagem maquiagem) {
         String sql = "INSERT INTO T_EM_MAQUIAGEM " +
-                "(ID_MAQUIAGEM, TP_MAQUIAGEM, CR_MAQUIAGEM, FX_PRECO, MC_MAQUIAGEM, " +
+                "(ID_MAQUIAGEM, TP_MAQUIAGEM, CR_MAQUIAGEM, PR_REFERENCIA, FX_PRECO, MC_MAQUIAGEM, " +
                 "LN_MAQUIAGEM, CD_TONALIDADE, TP_COBERTURA, AC_MAQUIAGEM, AV_MAQUIAGEM) " +
-                "VALUES (SQ_MAQUIAGEM.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (SQ_MAQUIAGEM.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conexao = dataSource.getConnection();
              PreparedStatement stmt = conexao.prepareStatement(sql, new String[]{"ID_MAQUIAGEM"})) {
 
             stmt.setString(1, maquiagem.getTipo());
             stmt.setString(2, maquiagem.getCor());
-            stmt.setString(3, maquiagem.getFaixaPreco());
-            stmt.setString(4, maquiagem.getMarca());
-            stmt.setString(5, maquiagem.getLinhaProduto());
-            stmt.setString(6, maquiagem.getCodigoTonalidade());
-            stmt.setString(7, maquiagem.getTipoCobertura());
-            stmt.setString(8, maquiagem.getAcabamento());
+            stmt.setBigDecimal(3, maquiagem.getPrecoReferencia());
+            stmt.setString(4, maquiagem.getFaixaPreco());
+            stmt.setString(5, maquiagem.getMarca());
+            stmt.setString(6, maquiagem.getLinhaProduto());
+            stmt.setString(7, maquiagem.getCodigoTonalidade());
+            stmt.setString(8, maquiagem.getTipoCobertura());
+            stmt.setString(9, maquiagem.getAcabamento());
 
             if (maquiagem.getAvaliacao() != null) {
-                stmt.setDouble(9, maquiagem.getAvaliacao());
+                stmt.setDouble(10, maquiagem.getAvaliacao());
             } else {
-                stmt.setNull(9, Types.NUMERIC);
+                stmt.setNull(10, Types.NUMERIC);
             }
 
             stmt.executeUpdate();
@@ -135,7 +138,7 @@ public class MaquiagemDao {
 
     public Maquiagem atualizar(Maquiagem maquiagem) {
         String sql = "UPDATE T_EM_MAQUIAGEM SET " +
-                "TP_MAQUIAGEM = ?, CR_MAQUIAGEM = ?, FX_PRECO = ?, MC_MAQUIAGEM = ?, " +
+                "TP_MAQUIAGEM = ?, CR_MAQUIAGEM = ?, PR_REFERENCIA = ?, FX_PRECO = ?, MC_MAQUIAGEM = ?, " +
                 "LN_MAQUIAGEM = ?, CD_TONALIDADE = ?, TP_COBERTURA = ?, AC_MAQUIAGEM = ?, AV_MAQUIAGEM = ? " +
                 "WHERE ID_MAQUIAGEM = ?";
 
@@ -144,20 +147,21 @@ public class MaquiagemDao {
 
             stmt.setString(1, maquiagem.getTipo());
             stmt.setString(2, maquiagem.getCor());
-            stmt.setString(3, maquiagem.getFaixaPreco());
-            stmt.setString(4, maquiagem.getMarca());
-            stmt.setString(5, maquiagem.getLinhaProduto());
-            stmt.setString(6, maquiagem.getCodigoTonalidade());
-            stmt.setString(7, maquiagem.getTipoCobertura());
-            stmt.setString(8, maquiagem.getAcabamento());
+            stmt.setBigDecimal(3, maquiagem.getPrecoReferencia());
+            stmt.setString(4, maquiagem.getFaixaPreco());
+            stmt.setString(5, maquiagem.getMarca());
+            stmt.setString(6, maquiagem.getLinhaProduto());
+            stmt.setString(7, maquiagem.getCodigoTonalidade());
+            stmt.setString(8, maquiagem.getTipoCobertura());
+            stmt.setString(9, maquiagem.getAcabamento());
 
             if (maquiagem.getAvaliacao() != null) {
-                stmt.setDouble(9, maquiagem.getAvaliacao());
+                stmt.setDouble(10, maquiagem.getAvaliacao());
             } else {
-                stmt.setNull(9, Types.NUMERIC);
+                stmt.setNull(10, Types.NUMERIC);
             }
 
-            stmt.setLong(10, maquiagem.getId());
+            stmt.setLong(11, maquiagem.getId());
 
             int linhasAfetadas = stmt.executeUpdate();
 

@@ -1,34 +1,34 @@
 package br.com.fiap.espelhomeu.dto;
 
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class CadastroProduto {
 
-    @Size(max = 20)
+    @NotBlank
+    @Pattern(regexp = "^(Shampoo|Condicionador|Máscara Capilar|Finalizador|Modelador|Tintura)$")
     private String categoria;
 
+    @NotBlank
     @Size(max = 20)
     private String nome;
 
+    @NotBlank
     @Size(max = 30)
     private String marca;
 
+    @NotBlank
     @Size(max = 30)
     private String categoriaPrincipal;
 
+    @NotNull
     @DecimalMin("0.00")
     @Digits(integer = 8, fraction = 2)
     private BigDecimal precoReferencia;
 
-    @Pattern(regexp = "^(Custo-beneficio|Intermediário|Caro)$")
-    private String faixaPreco;
-
+    @NotNull
     @Digits(integer = 1, fraction = 2)
     private Double avaliacao;
 
@@ -41,13 +41,12 @@ public class CadastroProduto {
 
     public CadastroProduto() {}
 
-    public CadastroProduto(String categoria, String nome, String marca, String categoriaPrincipal, BigDecimal precoReferencia, String faixaPreco, Double avaliacao, String cor, LocalDateTime data) {
+    public CadastroProduto(String categoria, String nome, String marca, String categoriaPrincipal, BigDecimal precoReferencia, Double avaliacao, String cor, LocalDateTime data) {
         this.categoria = categoria;
         this.nome = nome;
         this.marca = marca;
         this.categoriaPrincipal = categoriaPrincipal;
         this.precoReferencia = precoReferencia;
-        this.faixaPreco = faixaPreco;
         this.avaliacao = avaliacao;
         this.cor = cor;
         this.data = data;
@@ -93,14 +92,6 @@ public class CadastroProduto {
 
     public void setPrecoReferencia(BigDecimal precoReferencia) {
         this.precoReferencia = precoReferencia;
-    }
-
-    public String getFaixaPreco() {
-        return faixaPreco;
-    }
-
-    public void setFaixaPreco(String faixaPreco) {
-        this.faixaPreco = faixaPreco;
     }
 
     public Double getAvaliacao() {

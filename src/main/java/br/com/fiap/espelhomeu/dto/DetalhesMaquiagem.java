@@ -1,10 +1,13 @@
 package br.com.fiap.espelhomeu.dto;
 
+import java.math.BigDecimal;
+
 public class DetalhesMaquiagem {
 
     private Long id;
     private String tipo;
     private String cor;
+    private BigDecimal precoReferencia;
     private String faixaPreco;
     private String marca;
     private String linhaProduto;
@@ -17,10 +20,11 @@ public class DetalhesMaquiagem {
 
     public DetalhesMaquiagem() {}
 
-    public DetalhesMaquiagem(Long id, String tipo, String cor, String faixaPreco, String marca, String linhaProduto, String codigoTonalidade, String tipoCobertura, String acabamento, Double avaliacao) {
+    public DetalhesMaquiagem(Long id, String tipo, String cor, BigDecimal precoReferencia, String faixaPreco, String marca, String linhaProduto, String codigoTonalidade, String tipoCobertura, String acabamento, Double avaliacao) {
         this.id = id;
         this.tipo = tipo;
         this.cor = cor;
+        this.precoReferencia = precoReferencia;
         this.faixaPreco = faixaPreco;
         this.marca = marca;
         this.linhaProduto = linhaProduto;
@@ -54,6 +58,14 @@ public class DetalhesMaquiagem {
 
     public void setCor(String cor) {
         this.cor = cor;
+    }
+
+    public BigDecimal getPrecoReferencia() {
+        return precoReferencia;
+    }
+
+    public void setPrecoReferencia(BigDecimal precoReferencia) {
+        this.precoReferencia = precoReferencia;
     }
 
     public String getFaixaPreco() {
