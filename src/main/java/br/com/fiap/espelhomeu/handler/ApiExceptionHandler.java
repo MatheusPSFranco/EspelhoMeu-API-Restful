@@ -5,10 +5,13 @@ import br.com.fiap.espelhomeu.exception.ErroBancoDadosException;
 import br.com.fiap.espelhomeu.exception.ErrorResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 @RestControllerAdvice
 public class ApiExceptionHandler {
@@ -53,6 +56,39 @@ public class ApiExceptionHandler {
                 .body(new ErrorResponseDto(
                         "Erro na requisição",
                         e.getReason()
+                ));
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponseDto> tipoDeParametroInvalido(
+            MethodArgumentTypeMismatchException e) {
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponseDto(
+                        "Parâmetro inválido",
+                        "O valor informado para '" + e.getName() + "' é inválido"
+                ));
+    }
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ResponseEntity<ErrorResponseDto> rotaNaoEncontrada(
+            NoHandlerFoundException e) {
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponseDto(
+                        "Rota não encontrada",
+                        "O endpoint informado não existe"
+                ));
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ErrorResponseDto> metodoNaoPermitido(
+            HttpRequestMethodNotSupportedException e) {
+
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
+                .body(new ErrorResponseDto(
+                        "Método não permitido",
+                        "O método HTTP informado não é permitido neste endpoint"
                 ));
     }
 }
